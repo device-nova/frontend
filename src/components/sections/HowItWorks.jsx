@@ -1,173 +1,13 @@
-// import { useRef } from 'react';
-// import { motion, useInView } from 'framer-motion';
-// import { Cpu, Cloud, Zap, ArrowRight, RefreshCw, Globe } from 'lucide-react';
-// import Badge from '../ui/Badge.jsx';
-
-// /* ------------------------------------------------------------------ */
-// /* Sub-components                                                        */
-// /* ------------------------------------------------------------------ */
-
-// function FlowNode({ icon: Icon, label, sublabel, accent = false, delay = 0, inView }) {
-//   return (
-//     <motion.div
-//       initial={{ opacity: 0, scale: 0.85 }}
-//       animate={inView ? { opacity: 1, scale: 1 } : {}}
-//       transition={{ duration: 0.5, ease: 'easeOut', delay }}
-//       className="flex flex-col items-center gap-2 text-center"
-//     >
-//       <div
-//         className={`h-16 w-16 rounded-2xl flex items-center justify-center border transition-all duration-300
-//           ${accent
-//             ? 'bg-cyan/10 border-cyan/40 shadow-glow-cyan'
-//             : 'bg-surface-raised border-border'
-//           }`}
-//       >
-//         <Icon size={26} className={accent ? 'text-cyan' : 'text-muted'} aria-hidden="true" />
-//       </div>
-//       <span className="font-display text-sm font-semibold text-primary">{label}</span>
-//       {sublabel && <span className="font-mono text-[0.65rem] text-muted tracking-widest2">{sublabel}</span>}
-//     </motion.div>
-//   );
-// }
-
-// function AnimatedConnector({ delay, inView, dashed = false }) {
-//   return (
-//     <motion.div
-//       className="flex-1 flex items-center justify-center px-2 min-w-[32px]"
-//       initial={{ opacity: 0 }}
-//       animate={inView ? { opacity: 1 } : {}}
-//       transition={{ delay, duration: 0.4 }}
-//     >
-//       <svg width="100%" height="24" viewBox="0 0 80 24" fill="none" aria-hidden="true">
-//         <line
-//           x1="0" y1="12" x2="68" y2="12"
-//           stroke={dashed ? 'var(--fg-muted)' : 'var(--accent-cyan)'}
-//           strokeWidth="1.5"
-//           strokeDasharray={dashed ? '5 4' : '0'}
-//           className={!dashed ? 'animate-dash-flow' : ''}
-//           strokeDashoffset="0"
-//         />
-//         <polygon points="68,7 80,12 68,17" fill={dashed ? 'var(--fg-muted)' : 'var(--accent-cyan)'} />
-//       </svg>
-//     </motion.div>
-//   );
-// }
-
-// function LatencyPill({ label, value, tone, delay, inView }) {
-//   return (
-//     <motion.div
-//       initial={{ opacity: 0, y: 12 }}
-//       animate={inView ? { opacity: 1, y: 0 } : {}}
-//       transition={{ delay, duration: 0.5, ease: 'easeOut' }}
-//       className="flex items-center gap-3 rounded-xl border border-border bg-surface-raised px-5 py-3"
-//     >
-//       <span className="font-mono text-xs text-muted tracking-widest2 uppercase">{label}</span>
-//       <span
-//         className={`font-display text-2xl font-bold ${tone === 'bad' ? 'text-amber' : 'text-cyan'}`}
-//       >
-//         {value}
-//       </span>
-//     </motion.div>
-//   );
-// }
-
-// /* ------------------------------------------------------------------ */
-// /* Main section                                                          */
-// /* ------------------------------------------------------------------ */
-
-// export default function HowItWorks() {
-//   const ref = useRef(null);
-//   const inView = useInView(ref, { once: true, amount: 0.25 });
-
-//   return (
-//     <section id="how-it-works" className="bg-void section-pad" ref={ref}>
-//       <div className="container-base">
-//         <div className="mb-14 max-w-2xl">
-//           <Badge tone="cyan" className="mb-5">
-//             How Edge AI Works
-//           </Badge>
-//           <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary leading-tight">
-//             AI inference at the source, not the cloud
-//           </h2>
-//           <p className="mt-5 text-lg text-muted leading-relaxed">
-//             Device-Nova moves the inference step from your data center to the device itself.
-//             The latency difference is not incremental — it is architectural.
-//           </p>
-//         </div>
-
-//         {/* ---- EDGE AI (NEW) PATH ---- */}
-//         <div className="mb-10">
-//           <p className="font-mono text-xs tracking-widest2 uppercase text-cyan mb-6">
-//             With Device-Nova
-//           </p>
-//           <div
-//             className="flex items-center gap-0 rounded-2xl border border-cyan/20 bg-surface p-6 md:p-8 overflow-x-auto"
-//             role="img"
-//             aria-label="Edge AI flow: Sensor feeds Device-Nova Edge AI which delivers instant decision in under 2ms"
-//           >
-//             <FlowNode icon={Cpu} label="Sensor / PLC" sublabel="Raw signal" delay={0} inView={inView} />
-//             <AnimatedConnector delay={0.2} inView={inView} />
-//             <FlowNode icon={Zap} label="Device-Nova Edge AI" sublabel="On-device inference" accent delay={0.3} inView={inView} />
-//             <AnimatedConnector delay={0.5} inView={inView} />
-//             <FlowNode icon={Zap} label="Instant Decision" sublabel="Autonomous action" accent delay={0.6} inView={inView} />
-//           </div>
-//           <div className="flex justify-start mt-4">
-//             <LatencyPill label="Decision latency" value="< 2 ms" tone="good" delay={0.7} inView={inView} />
-//           </div>
-//         </div>
-
-//         {/* ---- CLOUD-ONLY (OLD) PATH ---- */}
-//         <div>
-//           <p className="font-mono text-xs tracking-widest2 uppercase text-muted mb-6">
-//             Traditional cloud-dependent architecture
-//           </p>
-//           <div
-//             className="flex items-center gap-0 rounded-2xl border border-border bg-surface-raised p-6 md:p-8 overflow-x-auto opacity-70"
-//             role="img"
-//             aria-label="Cloud IoT flow: Sensor sends to internet then cloud AI then round-trip back to device taking 80 to 400ms"
-//           >
-//             <FlowNode icon={Cpu} label="Sensor / PLC" sublabel="Raw signal" delay={0.1} inView={inView} />
-//             <AnimatedConnector delay={0.2} inView={inView} dashed />
-//             <FlowNode icon={Globe} label="Internet" sublabel="WAN hop" delay={0.3} inView={inView} />
-//             <AnimatedConnector delay={0.4} inView={inView} dashed />
-//             <FlowNode icon={Cloud} label="Cloud AI" sublabel="Remote inference" delay={0.5} inView={inView} />
-//             <AnimatedConnector delay={0.6} inView={inView} dashed />
-//             <FlowNode icon={RefreshCw} label="Round Trip" sublabel="Back to device" delay={0.7} inView={inView} />
-//           </div>
-//           <div className="flex justify-start mt-4">
-//             <LatencyPill label="Decision latency" value="80–400 ms" tone="bad" delay={0.8} inView={inView} />
-//           </div>
-//         </div>
-
-//         {/* Callout */}
-//         <motion.div
-//           initial={{ opacity: 0, y: 20 }}
-//           animate={inView ? { opacity: 1, y: 0 } : {}}
-//           transition={{ delay: 0.9, duration: 0.6 }}
-//           className="mt-14 rounded-2xl border border-cyan/20 bg-cyan/5 px-8 py-6 flex flex-col md:flex-row items-start md:items-center gap-4"
-//         >
-//           <ArrowRight size={22} className="text-cyan flex-shrink-0" aria-hidden="true" />
-//           <p className="text-primary leading-relaxed">
-//             Device-Nova runs a full AI inference stack — model serving, data normalization,
-//             anomaly detection — directly on resource-constrained edge hardware without modifying
-//             existing PLC or SCADA configurations.
-//           </p>
-//         </motion.div>
-//       </div>
-//     </section>
-//   );
-// }
-
-
 import { useEffect, useRef, useState, useCallback } from 'react';
 import * as THREE from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Badge from '../ui/Badge.jsx';
 import Card from '../ui/Card.jsx';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion.js';
-import { Cpu, Network, Cloud } from 'lucide-react';
+import { Cpu, Network, Cloud, RotateCw, MousePointerClick } from 'lucide-react';
 
 /* ─────────────────────────────────────────────────────────
    CONSTANTS
@@ -211,9 +51,9 @@ const STATIONS = [
   },
 ];
 
-const OVERVIEW_CAM_POS = new THREE.Vector3(0, 3.5, 8.5);
-const OVERVIEW_CAM_TARGET = new THREE.Vector3(0, 0, 0);
-const IDLE_TIMEOUT_MS = 8000;
+const OVERVIEW_CAM_POS = new THREE.Vector3(0, 3.2, 9.5);
+const OVERVIEW_CAM_TARGET = new THREE.Vector3(0, 0.1, 0);
+const IDLE_TIMEOUT_MS = 9000;
 
 /* ─────────────────────────────────────────────────────────
    UTILITIES
@@ -268,7 +108,6 @@ function createEdgeNodeGroup() {
   const group = new THREE.Group();
   group.position.copy(STATIONS[0].position);
 
-  // Main body
   const bodyGeo = new THREE.BoxGeometry(1.2, 0.8, 0.6);
   const bodyMat = new THREE.MeshStandardMaterial({
     color: 0x0d131c, roughness: 0.3, metalness: 0.7,
@@ -277,14 +116,12 @@ function createEdgeNodeGroup() {
   const body = new THREE.Mesh(bodyGeo, bodyMat);
   group.add(body);
 
-  // LED strip on top
   const ledGeo = new THREE.BoxGeometry(0.8, 0.05, 0.05);
   const ledMat = new THREE.MeshStandardMaterial({ emissive: 0x00d9ff, emissiveIntensity: 2.5, color: 0x00d9ff });
   const led = new THREE.Mesh(ledGeo, ledMat);
   led.position.set(0, 0.43, 0);
   group.add(led);
 
-  // Side vent lines
   for (let i = 0; i < 3; i++) {
     const ventGeo = new THREE.BoxGeometry(0.04, 0.3, 0.62);
     const ventMat = new THREE.MeshStandardMaterial({ color: 0x131b26, roughness: 0.9, metalness: 0.1 });
@@ -293,14 +130,12 @@ function createEdgeNodeGroup() {
     group.add(vent);
   }
 
-  // Orbit ring
   const ringGeo = new THREE.TorusGeometry(0.92, 0.022, 8, 64);
   const ringMat = new THREE.MeshStandardMaterial({ emissive: 0x00d9ff, emissiveIntensity: 1.6, color: 0x00d9ff });
   const ring = new THREE.Mesh(ringGeo, ringMat);
   ring.rotation.x = Math.PI * 0.08;
   group.add(ring);
 
-  // Particle emitter — InstancedMesh of 40 tiny spheres
   const PARTICLE_COUNT = 40;
   const pGeo = new THREE.SphereGeometry(0.025, 4, 4);
   const pMat = new THREE.MeshStandardMaterial({ emissive: 0x00d9ff, emissiveIntensity: 2.0, color: 0x00d9ff });
@@ -323,13 +158,24 @@ function createEdgeNodeGroup() {
   });
   group.add(particles);
 
-  // Hover ring beneath (flat torus on ground plane)
   const hoverRingGeo = new THREE.TorusGeometry(0.85, 0.03, 8, 48);
   const hoverRingMat = new THREE.MeshStandardMaterial({ emissive: 0x00d9ff, emissiveIntensity: 1.2, color: 0x00d9ff, transparent: true, opacity: 0 });
   const hoverRing = new THREE.Mesh(hoverRingGeo, hoverRingMat);
   hoverRing.rotation.x = -Math.PI / 2;
   hoverRing.position.y = -0.45;
+  hoverRing.userData.targetOpacity = 0;
+  hoverRing.userData.isHoverRing = true;
   group.add(hoverRing);
+
+  // Generous invisible hitbox — larger than the visual body so the station is
+  // easy to target on both desktop (precise cursor) and mobile (fat finger).
+  const hitbox = new THREE.Mesh(
+    new THREE.BoxGeometry(2.6, 2.0, 2.0),
+    new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })
+  );
+  hitbox.position.y = 0.15;
+  hitbox.userData.isHitbox = true;
+  group.add(hitbox);
 
   let time = 0;
 
@@ -337,7 +183,6 @@ function createEdgeNodeGroup() {
     time += delta;
     ring.rotation.y += 0.012;
 
-    // animate particles
     pData.forEach((p, i) => {
       p.dist += p.speed;
       p.life = p.dist / 2.2;
@@ -356,7 +201,6 @@ function createEdgeNodeGroup() {
     });
     particles.instanceMatrix.needsUpdate = true;
 
-    // pulse hover ring
     hoverRing.material.opacity = (0.2 + 0.3 * Math.sin(time * 3)) * hoverRing.userData.targetOpacity;
   }
 
@@ -393,7 +237,6 @@ function createNetworkMeshGroup() {
     nodeMeshes.push(mesh);
   });
 
-  // Edges between nodes
   const EDGES = [[0,1],[0,2],[0,3],[0,4],[0,5],[1,6],[2,9],[3,7],[4,5],[6,7],[8,4],[9,5]];
   const pulseMeshes = [];
   const edgeData = [];
@@ -407,7 +250,6 @@ function createNetworkMeshGroup() {
     const line = new THREE.Line(lineGeo, lineMat);
     group.add(line);
 
-    // Traveling pulse dot
     const pulseGeo = new THREE.SphereGeometry(0.035, 8, 8);
     const pulseMat = new THREE.MeshStandardMaterial({ emissive: 0x00d9ff, emissiveIntensity: 3.0, color: 0x00d9ff });
     const pulse = new THREE.Mesh(pulseGeo, pulseMat);
@@ -416,13 +258,22 @@ function createNetworkMeshGroup() {
     edgeData.push({ from: pA.clone(), to: pB.clone(), t: Math.random(), speed: 0.006 + Math.random() * 0.005 });
   });
 
-  // Hover ring
   const hoverRingGeo = new THREE.TorusGeometry(0.95, 0.025, 8, 48);
   const hoverRingMat = new THREE.MeshStandardMaterial({ emissive: 0x00d9ff, emissiveIntensity: 1.2, color: 0x00d9ff, transparent: true, opacity: 0 });
   const hoverRing = new THREE.Mesh(hoverRingGeo, hoverRingMat);
   hoverRing.rotation.x = -Math.PI / 2;
   hoverRing.position.y = -1.0;
+  hoverRing.userData.targetOpacity = 0;
+  hoverRing.userData.isHoverRing = true;
   group.add(hoverRing);
+
+  const hitbox = new THREE.Mesh(
+    new THREE.SphereGeometry(1.7, 12, 12),
+    new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })
+  );
+  hitbox.position.y = 0.15;
+  hitbox.userData.isHitbox = true;
+  group.add(hitbox);
 
   let time = 0;
 
@@ -430,14 +281,12 @@ function createNetworkMeshGroup() {
     time += delta;
     group.rotation.y += 0.004;
 
-    // animate pulse dots
     edgeData.forEach((ed, i) => {
       ed.t += ed.speed;
       if (ed.t > 1) ed.t = 0;
       pulseMeshes[i].position.lerpVectors(ed.from, ed.to, ed.t);
     });
 
-    // pulse node emissive
     nodeMeshes.forEach((n, i) => {
       const phase = time * 1.5 + i * 0.7;
       n.material.emissiveIntensity = (i === 0 ? 1.0 : 0.5) + 0.3 * Math.sin(phase);
@@ -470,7 +319,6 @@ function createServerGroup() {
     rack.position.y = (i - 1) * 0.34;
     group.add(rack);
 
-    // LED strip per rack
     const ledGeo = new THREE.BoxGeometry(0.55, 0.04, 0.04);
     const ledMat = new THREE.MeshStandardMaterial({ emissive: 0xff8a00, emissiveIntensity: 0.9, color: 0xff8a00 });
     const led = new THREE.Mesh(ledGeo, ledMat);
@@ -478,27 +326,34 @@ function createServerGroup() {
     group.add(led);
   }
 
-  // Latency / spinner ring
   const latencyGeo = new THREE.TorusGeometry(1.05, 0.025, 8, 64);
   const latencyMat = new THREE.MeshStandardMaterial({ emissive: 0xff8a00, emissiveIntensity: 0.65, color: 0xff8a00 });
   const latencyRing = new THREE.Mesh(latencyGeo, latencyMat);
   latencyRing.rotation.x = Math.PI * 0.12;
   group.add(latencyRing);
 
-  // Second ring offset for depth
   const latencyGeo2 = new THREE.TorusGeometry(1.25, 0.015, 8, 64);
   const latencyMat2 = new THREE.MeshStandardMaterial({ emissive: 0xff8a00, emissiveIntensity: 0.25, color: 0xff8a00, transparent: true, opacity: 0.5 });
   const latencyRing2 = new THREE.Mesh(latencyGeo2, latencyMat2);
   latencyRing2.rotation.x = -Math.PI * 0.07;
   group.add(latencyRing2);
 
-  // Hover ring
   const hoverRingGeo = new THREE.TorusGeometry(0.9, 0.025, 8, 48);
   const hoverRingMat = new THREE.MeshStandardMaterial({ emissive: 0xff8a00, emissiveIntensity: 1.0, color: 0xff8a00, transparent: true, opacity: 0 });
   const hoverRing = new THREE.Mesh(hoverRingGeo, hoverRingMat);
   hoverRing.rotation.x = -Math.PI / 2;
   hoverRing.position.y = -0.65;
+  hoverRing.userData.targetOpacity = 0;
+  hoverRing.userData.isHoverRing = true;
   group.add(hoverRing);
+
+  const hitbox = new THREE.Mesh(
+    new THREE.BoxGeometry(2.2, 2.0, 1.8),
+    new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })
+  );
+  hitbox.position.y = 0.05;
+  hitbox.userData.isHitbox = true;
+  group.add(hitbox);
 
   let time = 0;
 
@@ -564,17 +419,18 @@ function createParticleField(count = 300) {
 /* ─────────────────────────────────────────────────────────
    MAIN THREE.JS HOOK
 ───────────────────────────────────────────────────────── */
-function useThreeScene(canvasRef, containerRef) {
+function useThreeScene(canvasRef, containerRef, onFirstInteract) {
   const [selectedIdx, setSelectedIdx] = useState(null);
   const selectedIdxRef = useRef(null);
   const stateRef = useRef(null);
+  const onFirstInteractRef = useRef(onFirstInteract);
+  onFirstInteractRef.current = onFirstInteract;
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
 
-    // WebGL check
     let gl;
     try {
       gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
@@ -585,7 +441,6 @@ function useThreeScene(canvasRef, containerRef) {
 
     const isMobile = window.innerWidth < 768;
 
-    // Renderer
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, context: gl });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -597,16 +452,28 @@ function useThreeScene(canvasRef, containerRef) {
     const H = container.clientHeight;
     renderer.setSize(W, H, false);
 
-    // Scene
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x060a10);
 
-    // Camera
     const camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 100);
     camera.position.copy(OVERVIEW_CAM_POS);
     camera.lookAt(OVERVIEW_CAM_TARGET);
 
-    // Lights
+    // OrbitControls — active immediately so the scene feels alive and
+    // explorable from the very first frame, with no forced camera moves.
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.rotateSpeed = 0.55;
+    controls.enablePan = false;
+    controls.enableZoom = false; // preserve the intended framing/presentation
+    controls.maxPolarAngle = Math.PI / 1.95; // generous vertical range, no flip past horizon
+    controls.minPolarAngle = 0.35;
+    controls.target.copy(OVERVIEW_CAM_TARGET);
+    controls.autoRotate = false;
+    controls.autoRotateSpeed = 0.5;
+    controls.update();
+
     const ambient = new THREE.AmbientLight(0x060a10, 0.4);
     scene.add(ambient);
     const cyanKey = new THREE.PointLight(0x00d9ff, 14, 16);
@@ -619,25 +486,22 @@ function useThreeScene(canvasRef, containerRef) {
     amberAccent.position.set(5, 2, 1);
     scene.add(amberAccent);
 
-    // Stations
     const s1 = createEdgeNodeGroup();
     const s2 = createNetworkMeshGroup();
     const s3 = createServerGroup();
     scene.add(s1.group, s2.group, s3.group);
 
     const stationObjects = [s1, s2, s3];
-    stationObjects.forEach(s => {
-      s.group.userData.stationIdx = stationObjects.indexOf(s);
-      s.group.children.forEach(c => { c.userData.stationIdx = stationObjects.indexOf(s); });
+    stationObjects.forEach((s, idx) => {
+      s.group.userData.stationIdx = idx;
+      s.group.children.forEach(c => { c.userData.stationIdx = idx; });
     });
 
-    // Ground + particles
     scene.add(createGroundPlane());
     const particleCount = isMobile ? 80 : 300;
     const pf = createParticleField(particleCount);
     scene.add(pf.points);
 
-    // Post-processing
     let composer = null;
     if (!isMobile) {
       composer = new EffectComposer(renderer);
@@ -646,13 +510,14 @@ function useThreeScene(canvasRef, containerRef) {
       composer.addPass(bloom);
     }
 
-    // Camera lerp state
+    // Camera transition state — only ever triggered by explicit user action
+    // (clicking a station or a tab button), never automatically.
     const camState = {
-      fromPos: OVERVIEW_CAM_POS.clone(),
-      fromTarget: OVERVIEW_CAM_TARGET.clone(),
-      toPos: OVERVIEW_CAM_POS.clone(),
-      toTarget: OVERVIEW_CAM_TARGET.clone(),
-      currentTarget: OVERVIEW_CAM_TARGET.clone(),
+      fromPos: camera.position.clone(),
+      fromTarget: controls.target.clone(),
+      toPos: camera.position.clone(),
+      toTarget: controls.target.clone(),
+      currentTarget: controls.target.clone(),
       progress: 1,
       transitioning: false,
     };
@@ -660,15 +525,17 @@ function useThreeScene(canvasRef, containerRef) {
     function focusStation(idx) {
       const st = STATIONS[idx];
       camState.fromPos.copy(camera.position);
-      camState.fromTarget.copy(camState.currentTarget);
+      camState.fromTarget.copy(controls.target);
       camState.toPos.copy(st.cameraPos);
       camState.toTarget.copy(st.cameraTarget);
       camState.progress = 0;
       camState.transitioning = true;
+      controls.enabled = false;
+      controls.autoRotate = false;
       selectedIdxRef.current = idx;
       setSelectedIdx(idx);
+      lastInteraction = performance.now();
 
-      // Set emissive states
       stationObjects.forEach((s, i) => {
         if (s.bodyMat) s.bodyMat.emissiveIntensity = i === idx ? 0.4 : 0.12;
         if (s.ringMat) s.ringMat.emissiveIntensity = i === idx ? 2.5 : 1.4;
@@ -678,7 +545,9 @@ function useThreeScene(canvasRef, containerRef) {
       });
     }
 
-    // Raycasting
+    // Raycasting — test hitboxes only. Hitboxes are deliberately oversized,
+    // which makes targeting reliable on both mouse and touch without the
+    // visual geometry itself needing to grow.
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     let hoveredIdx = null;
@@ -688,49 +557,78 @@ function useThreeScene(canvasRef, containerRef) {
       mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
       raycaster.setFromCamera(mouse, camera);
-      const targets = stationObjects.map(s => s.group);
-      const hits = raycaster.intersectObjects(targets, true);
+      const targets = stationObjects.map(s =>
+        s.group.children.find(c => c.userData.isHitbox)
+      ).filter(Boolean);
+      const hits = raycaster.intersectObjects(targets, false);
       if (hits.length > 0) {
-        const obj = hits[0].object;
-        return obj.userData.stationIdx ?? obj.parent?.userData.stationIdx ?? null;
+        return hits[0].object.userData.stationIdx ?? null;
       }
       return null;
     }
 
-    // Idle auto-rotate
-    let lastInteraction = performance.now();
-    let idleAngle = 0;
-
-    function onMouseMove(e) {
-      const idx = getStationIdxFromEvent(e);
-      hoveredIdx = idx;
-      canvas.style.cursor = idx !== null ? 'pointer' : 'default';
+    function setHoverRingTargets(idx) {
       stationObjects.forEach((s, i) => {
-        s.group.children.forEach(c => {
-          if (c.userData && c.userData.targetOpacity !== undefined) return;
-        });
-        if (s.hoverRingMat) {
-          s.hoverRingMat.userData = s.hoverRingMat.userData || {};
-          // stored on the mesh directly
-        }
-        // target opacity on hover ring mesh
-        const hoverMesh = s.group.children.find(c => c.geometry && c.geometry.type === 'TorusGeometry' && c.position.y < -0.3);
+        const hoverMesh = s.group.children.find(c => c.userData.isHoverRing);
         if (hoverMesh) hoverMesh.userData.targetOpacity = i === idx ? 1 : 0;
       });
     }
 
-    function onClick(e) {
-      const idx = getStationIdxFromEvent(e);
-      if (idx !== null) {
-        lastInteraction = performance.now();
-        focusStation(idx);
+    let lastInteraction = performance.now();
+    let userHasInteracted = false;
+    const pointerDownPos = new THREE.Vector2();
+    let isPointerDown = false;
+
+    function markInteracted() {
+      lastInteraction = performance.now();
+      if (!userHasInteracted) {
+        userHasInteracted = true;
+        if (onFirstInteractRef.current) onFirstInteractRef.current();
       }
     }
 
-    canvas.addEventListener('mousemove', onMouseMove);
-    canvas.addEventListener('click', onClick);
+    function onPointerDown(e) {
+      isPointerDown = true;
+      pointerDownPos.set(e.clientX, e.clientY);
+      markInteracted();
+      controls.autoRotate = false;
+    }
 
-    // Resize
+    function onPointerUp(e) {
+      isPointerDown = false;
+      const dx = e.clientX - pointerDownPos.x;
+      const dy = e.clientY - pointerDownPos.y;
+      // Only treat as a "click" (vs. a drag-to-orbit) if the pointer barely moved.
+      if (Math.sqrt(dx * dx + dy * dy) < 6) {
+        const idx = getStationIdxFromEvent(e);
+        if (idx !== null) {
+          markInteracted();
+          focusStation(idx);
+        }
+      }
+    }
+
+    function onPointerMove(e) {
+      if (isPointerDown) return; // don't fight the drag/orbit gesture
+      const idx = getStationIdxFromEvent(e);
+      hoveredIdx = idx;
+      canvas.style.cursor = idx !== null ? 'pointer' : 'grab';
+      setHoverRingTargets(idx);
+    }
+
+    function onPointerLeave() {
+      hoveredIdx = null;
+      setHoverRingTargets(null);
+      canvas.style.cursor = 'grab';
+    }
+
+    canvas.style.cursor = 'grab';
+    canvas.addEventListener('pointerdown', onPointerDown);
+    canvas.addEventListener('pointerup', onPointerUp);
+    canvas.addEventListener('pointermove', onPointerMove);
+    canvas.addEventListener('pointerleave', onPointerLeave);
+    controls.addEventListener('start', markInteracted);
+
     const ro = new ResizeObserver(() => {
       const nW = container.clientWidth;
       const nH = container.clientHeight;
@@ -741,17 +639,16 @@ function useThreeScene(canvasRef, containerRef) {
     });
     ro.observe(container);
 
-    // Intersection observer — pause when off-screen
     const isPausedRef = { current: false };
     const io = new IntersectionObserver(([entry]) => {
       isPausedRef.current = entry.intersectionRatio < 0.1;
     }, { threshold: 0.1 });
     io.observe(container);
 
-    // Initial auto-focus after 1.5s
-    const autoFocusTimer = setTimeout(() => focusStation(0), 1500);
+    // NOTE: No auto-focus timer and no forced camera move on mount.
+    // The scene loads straight into a calm overview shot and waits for
+    // the visitor to actually engage with it.
 
-    // Render loop
     let rafId;
     let lastTime = performance.now();
 
@@ -763,32 +660,29 @@ function useThreeScene(canvasRef, containerRef) {
       const delta = Math.min((now - lastTime) / 1000, 0.05);
       lastTime = now;
 
-      // Camera lerp
       if (camState.transitioning) {
         camState.progress = Math.min(camState.progress + delta / 1.2, 1);
         const e = easeInOutCubic(camState.progress);
         camera.position.lerpVectors(camState.fromPos, camState.toPos, e);
         camState.currentTarget.lerpVectors(camState.fromTarget, camState.toTarget, e);
-        camera.lookAt(camState.currentTarget);
-        if (camState.progress >= 1) camState.transitioning = false;
+        controls.target.copy(camState.currentTarget);
+        controls.update();
+        if (camState.progress >= 1) {
+          camState.transitioning = false;
+          controls.enabled = true;
+        }
+      } else if (controls.enabled) {
+        const idleElapsed = now - lastInteraction;
+        const shouldIdleSpin = idleElapsed > IDLE_TIMEOUT_MS;
+        if (shouldIdleSpin !== controls.autoRotate) controls.autoRotate = shouldIdleSpin;
+        controls.update();
       }
 
-      // Idle rotation
-      const idleElapsed = now - lastInteraction;
-      if (idleElapsed > IDLE_TIMEOUT_MS && !camState.transitioning) {
-        idleAngle += 0.003;
-        camera.position.x = Math.sin(idleAngle) * 8.5;
-        camera.position.z = Math.cos(idleAngle) * 8.5;
-        camera.lookAt(OVERVIEW_CAM_TARGET);
-      }
-
-      // Scale lerp for hover
       stationObjects.forEach((s, i) => {
-        const targetScale = i === hoveredIdx ? 1.07 : 1.0;
-        s.group.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
+        const targetScale = i === hoveredIdx ? 1.08 : 1.0;
+        s.group.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.12);
       });
 
-      // Update station animations
       s1.update(delta);
       s2.update(delta);
       s3.update(delta);
@@ -805,14 +699,16 @@ function useThreeScene(canvasRef, containerRef) {
     stateRef.current = { focusStation };
 
     return () => {
-      clearTimeout(autoFocusTimer);
       cancelAnimationFrame(rafId);
       ro.disconnect();
       io.disconnect();
-      canvas.removeEventListener('mousemove', onMouseMove);
-      canvas.removeEventListener('click', onClick);
+      controls.removeEventListener('start', markInteracted);
+      controls.dispose();
+      canvas.removeEventListener('pointerdown', onPointerDown);
+      canvas.removeEventListener('pointerup', onPointerUp);
+      canvas.removeEventListener('pointermove', onPointerMove);
+      canvas.removeEventListener('pointerleave', onPointerLeave);
 
-      // Dispose
       scene.traverse(obj => {
         if (obj.geometry) obj.geometry.dispose();
         if (obj.material) {
@@ -839,7 +735,7 @@ function useThreeScene(canvasRef, containerRef) {
 ───────────────────────────────────────────────────────── */
 function StaticFallback() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
       {STATIONS.map((st, i) => {
         const Icon = st.icon;
         const isCloud = i === 2;
@@ -865,126 +761,155 @@ export default function HowItWorks() {
   const reducedMotion = usePrefersReducedMotion();
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
-  const [showHint, setShowHint] = useState(true);
   const [webglAvailable, setWebglAvailable] = useState(true);
+  const [showOnboardHint, setShowOnboardHint] = useState(true);
 
-  // Check WebGL early
   useEffect(() => {
     const testCanvas = document.createElement('canvas');
     const ctx = testCanvas.getContext('webgl2') || testCanvas.getContext('webgl');
     if (!ctx) setWebglAvailable(false);
-    setTimeout(() => setShowHint(false), 3500);
+  }, []);
+
+  const handleFirstInteract = useCallback(() => {
+    setShowOnboardHint(false);
   }, []);
 
   const { selectedIdx, focusStation } = useThreeScene(
     reducedMotion || !webglAvailable ? { current: null } : canvasRef,
-    reducedMotion || !webglAvailable ? { current: null } : containerRef
+    reducedMotion || !webglAvailable ? { current: null } : containerRef,
+    handleFirstInteract
   );
 
+  const handleTabClick = (i) => {
+    setShowOnboardHint(false);
+    focusStation(i);
+  };
+
   const activeStation = selectedIdx !== null ? STATIONS[selectedIdx] : null;
+  const use3D = !reducedMotion && webglAvailable;
 
   return (
     <section id="how-it-works" className="bg-void section-pad relative overflow-hidden">
       {/* Section header */}
-      <div className="container-base mb-10">
-        <Badge tone="cyan" className="mb-5">How Edge AI Works</Badge>
-        <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary leading-tight max-w-2xl">
+      <div className="container-base mb-8 sm:mb-10">
+        <Badge tone="cyan" className="mb-4 sm:mb-5">How Edge AI Works</Badge>
+        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold text-primary leading-tight max-w-2xl">
           AI inference at the source, not the cloud
         </h2>
-        <p className="mt-5 text-lg text-muted leading-relaxed max-w-xl">
+        <p className="mt-4 sm:mt-5 text-base sm:text-lg text-muted leading-relaxed max-w-xl">
           Explore the three layers of Device-Nova's edge intelligence architecture.
-          {!reducedMotion && webglAvailable && ' Click any station in the 3D scene to inspect it.'}
+          {use3D && ' Drag to rotate, or click a station to inspect it.'}
         </p>
       </div>
 
-      {/* 3D Scene or fallback */}
-      {reducedMotion || !webglAvailable ? (
-        <div className="container-base"><StaticFallback /></div>
-      ) : (
-        <div
-          ref={containerRef}
-          className="relative w-full select-none"
-          style={{ height: 'clamp(400px, 55vw, 680px)' }}
-          aria-label="Interactive 3D visualization of Edge AI architecture. Use the buttons below to explore each layer."
-          role="img"
-        >
-          <canvas
-            ref={canvasRef}
-            className="w-full h-full block"
-            aria-hidden="true"
-          />
+      {use3D ? (
+        <>
+          {/* 3D Visualization — fully unobstructed, nothing overlaid on top */}
+          <div
+            ref={containerRef}
+            className="relative w-full select-none"
+            style={{ height: 'clamp(340px, 48vw, 600px)' }}
+            aria-label="Interactive 3D visualization of Edge AI architecture. Drag to orbit. Use the buttons below to explore each layer."
+            role="img"
+          >
+            <canvas
+              ref={canvasRef}
+              className="w-full h-full block"
+              aria-hidden="true"
+            />
 
-          {/* Click-to-explore hint */}
-          {showHint && (
+            {/* Onboarding hint — bottom-right, unobtrusive, fades on first interaction */}
             <div
-              className="absolute top-5 left-1/2 -translate-x-1/2 pointer-events-none"
-              style={{ opacity: showHint ? 1 : 0, transition: 'opacity 0.6s ease' }}
+              className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 pointer-events-none"
+              style={{
+                opacity: showOnboardHint ? 1 : 0,
+                transform: showOnboardHint ? 'translateY(0)' : 'translateY(6px)',
+                transition: 'opacity 0.5s ease, transform 0.5s ease',
+              }}
               aria-hidden="true"
             >
-              <span className="font-mono text-[0.65rem] tracking-widest2 uppercase text-cyan/60 border border-cyan/20 rounded-md px-4 py-2 bg-void/50 backdrop-blur-sm animate-pulse">
-                Click to explore
-              </span>
-            </div>
-          )}
-
-          {/* Info panel overlay */}
-          <div className="absolute bottom-0 left-0 right-0">
-            <div
-              className="container-base pb-6"
-              style={{
-                opacity: activeStation ? 1 : 0,
-                transform: activeStation ? 'translateY(0)' : 'translateY(12px)',
-                transition: 'opacity 0.4s ease-out, transform 0.4s ease-out',
-                pointerEvents: activeStation ? 'auto' : 'none',
-              }}
-            >
-              {/* Glassmorphic info card */}
-              <div className="rounded-2xl border border-border bg-void/70 backdrop-blur-xl p-5 mb-4">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                  <div>
-                    <h3 className="font-display text-xl font-semibold text-primary">
-                      {activeStation?.title}
-                    </h3>
-                    <p className="font-mono text-[0.65rem] tracking-widest2 uppercase text-cyan mt-1">
-                      {activeStation?.sublabel}
-                    </p>
-                    <p className="text-muted text-sm leading-relaxed mt-3 max-w-2xl">
-                      {activeStation?.description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Station tabs */}
-                <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border">
-                  {STATIONS.map((st, i) => {
-                    const Icon = st.icon;
-                    const isActive = selectedIdx === i;
-                    const isCloud = i === 2;
-                    return (
-                      <button
-                        key={st.id}
-                        onClick={() => focusStation(i)}
-                        aria-pressed={isActive}
-                        className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 font-mono text-xs tracking-widest2 uppercase border transition-all duration-300 focus-visible:ring-2 focus-visible:ring-cyan
-                          ${isActive
-                            ? isCloud
-                              ? 'bg-amber/10 border-amber/40 text-amber'
-                              : 'bg-cyan/10 border-cyan/40 text-cyan'
-                            : 'bg-surface-raised border-border text-muted hover:border-hover hover:text-primary'
-                          }`}
-                      >
-                        <Icon size={13} aria-hidden="true" />
-                        {st.tabLabel}
-                      </button>
-                    );
-                  })}
-                </div>
+              <div className="flex items-center gap-2 rounded-full border border-cyan/25 bg-void/60 backdrop-blur-md pl-2.5 pr-3.5 py-2 shadow-glow-cyan/40">
+                <span className="relative flex h-6 w-6 items-center justify-center rounded-full bg-cyan/10">
+                  <RotateCw size={12} className="text-cyan animate-spin" style={{ animationDuration: '3s' }} />
+                </span>
+                <span className="font-mono text-[0.6rem] sm:text-[0.65rem] tracking-widest2 uppercase text-cyan/80 whitespace-nowrap">
+                  Drag to rotate
+                </span>
               </div>
             </div>
           </div>
-        </div>
+
+          {/* Station buttons — immediately beneath the scene, before the description */}
+          <div className="container-base mt-5 sm:mt-6">
+            <div
+              className="flex flex-wrap items-center gap-2 sm:gap-3"
+              role="tablist"
+              aria-label="Architecture layers"
+            >
+              {STATIONS.map((st, i) => {
+                const Icon = st.icon;
+                const isActive = selectedIdx === i;
+                const isCloud = i === 2;
+                return (
+                  <button
+                    key={st.id}
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-pressed={isActive}
+                    onClick={() => handleTabClick(i)}
+                    className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 sm:py-3 font-mono text-[0.65rem] sm:text-xs tracking-widest2 uppercase border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-void
+                      ${isActive
+                        ? isCloud
+                          ? 'bg-amber/10 border-amber/45 text-amber shadow-glow-amber'
+                          : 'bg-cyan/10 border-cyan/45 text-cyan shadow-glow-cyan'
+                        : 'bg-surface-raised border-border text-muted hover:border-hover hover:text-primary hover:-translate-y-0.5'
+                      }`}
+                  >
+                    <Icon size={14} aria-hidden="true" />
+                    {st.tabLabel}
+                  </button>
+                );
+              })}
+
+              {!activeStation && (
+                <span className="flex items-center gap-1.5 font-mono text-[0.6rem] sm:text-[0.65rem] text-muted/70 tracking-wide ml-1">
+                  <MousePointerClick size={13} aria-hidden="true" />
+                  Pick a layer to inspect
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Detailed information card — below the buttons, never over the scene */}
+          <div className="container-base mt-4 sm:mt-5">
+            <div
+              style={{
+                opacity: activeStation ? 1 : 0,
+                maxHeight: activeStation ? 600 : 0,
+                transform: activeStation ? 'translateY(0)' : 'translateY(8px)',
+                transition: 'opacity 0.35s ease-out, transform 0.35s ease-out, max-height 0.35s ease-out',
+                overflow: 'hidden',
+              }}
+            >
+              {activeStation && (
+                <div className="rounded-2xl border border-border bg-surface-raised/70 backdrop-blur-xl p-4 sm:p-5 md:p-6">
+                  <h3 className="font-display text-lg sm:text-xl md:text-2xl font-semibold text-primary leading-snug">
+                    {activeStation.title}
+                  </h3>
+                  <p className="font-mono text-[0.6rem] sm:text-[0.65rem] tracking-widest2 uppercase text-cyan mt-1.5">
+                    {activeStation.sublabel}
+                  </p>
+                  <p className="text-muted text-sm leading-relaxed mt-3 max-w-3xl">
+                    {activeStation.description}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="container-base"><StaticFallback /></div>
       )}
     </section>
   );
 }
-
