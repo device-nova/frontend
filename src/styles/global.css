@@ -1,0 +1,83 @@
+@import './tokens.css';
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    border-color: var(--border-default);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg-void);
+    color: var(--fg-primary);
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background-color: var(--accent-cyan);
+    color: var(--bg-void);
+  }
+
+  /* Visible focus rings everywhere, keyboard users only */
+  :focus-visible {
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Thin custom scrollbar to match the instrumentation aesthetic */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-void);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--bg-surface-raised);
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-cyan-deep);
+  }
+}
+
+@layer components {
+  .mono-label {
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .container-base {
+    @apply max-w-7xl mx-auto px-6 md:px-10;
+  }
+
+  .section-pad {
+    @apply py-24 md:py-32;
+  }
+}
+
+/* Respect reduced motion globally: kill ambient/looping animation by default,
+   each animated component additionally checks this via JS where logic
+   (not just CSS) needs to branch (e.g. GSAP scrub, count-up). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

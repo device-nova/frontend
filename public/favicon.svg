@@ -1,0 +1,7 @@
+<!-- TODO-ASSET: replace with final Device-Nova brandmark favicon -->
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="7" fill="#060A10"/>
+  <circle cx="16" cy="16" r="11" stroke="#00D9FF" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <circle cx="16" cy="16" r="6.5" stroke="#00D9FF" stroke-width="1.5" fill="none" opacity="0.8"/>
+  <circle cx="16" cy="16" r="2.2" fill="#00D9FF"/>
+</svg>

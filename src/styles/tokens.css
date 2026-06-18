@@ -1,0 +1,64 @@
+/* ============================================================
+   DEVICE-NOVA DESIGN TOKENS
+   Single source of truth for color, shadow, and theme values.
+   Components consume these via Tailwind's theme.extend — never
+   hardcode a hex value or rgba() string directly in a component.
+   ============================================================ */
+
+:root,
+[data-theme='dark'] {
+  /* Surfaces */
+  --bg-void: #060a10;
+  --bg-surface: #0d131c;
+  --bg-surface-raised: #131b26;
+
+  /* Foreground */
+  --fg-primary: #f2f6fa;
+  --fg-muted: #7e8ca0;
+
+  /* Borders */
+  --border-default: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(0, 217, 255, 0.4);
+
+  /* Accents */
+  --accent-cyan: #00d9ff;
+  --accent-cyan-deep: #0099cc;
+  --accent-amber: #ff8a00;
+  --accent-amber-deep: #cc6e00;
+  --success: #2ee6a6;
+
+  /* Composite values */
+  --gradient-primary: linear-gradient(135deg, var(--accent-cyan), var(--accent-cyan-deep));
+  --shadow-glow-cyan: 0 0 24px -6px rgba(0, 217, 255, 0.45);
+  --shadow-glow-amber: 0 0 20px -4px rgba(255, 138, 0, 0.5);
+  --shadow-elevation: 0 4px 24px -8px rgba(0, 0, 0, 0.55);
+}
+
+[data-theme='light'] {
+  /* Surfaces */
+  --bg-void: #fafbfc;
+  --bg-surface: #ffffff;
+  --bg-surface-raised: #f3f5f8;
+
+  /* Foreground */
+  --fg-primary: #131b26;
+  --fg-muted: #5b6b7f;
+
+  /* Borders */
+  --border-default: rgba(19, 27, 38, 0.08);
+  --border-hover: rgba(0, 153, 204, 0.35);
+
+  /* Accents — deeper cyan in light mode for AA contrast on white */
+  --accent-cyan: #0099cc;
+  --accent-cyan-deep: #006b94;
+  --accent-amber: #e07700;
+  --accent-amber-deep: #b35f00;
+  --success: #1fa37c;
+
+  /* Composite values — light mode uses soft neutral elevation, NOT
+     colored glow. Colored glow is a dark-mode-only signature. */
+  --gradient-primary: linear-gradient(135deg, var(--accent-cyan), var(--accent-cyan-deep));
+  --shadow-glow-cyan: 0 4px 24px -8px rgba(19, 27, 38, 0.08);
+  --shadow-glow-amber: 0 4px 24px -8px rgba(19, 27, 38, 0.08);
+  --shadow-elevation: 0 4px 24px -8px rgba(19, 27, 38, 0.08);
+}

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Device-Nova — Edge AI Device Intelligence Platform for Industrial IoT. Real-time anomaly detection, predictive maintenance, and autonomous decision-making at the edge." />
+    <title>Device-Nova — Edge AI Device Intelligence Platform</title>
+    <!--
+      Theme is applied here, before React mounts, to avoid a flash of the
+      wrong theme on first paint. Mirrors the logic in ThemeContext.jsx.
+    -->
+    <script>
+      (function () {
+        try {
+          var stored = window.localStorage.getItem('device-nova-theme');
+          var theme = stored === 'dark' || stored === 'light'
+            ? stored
+            : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
