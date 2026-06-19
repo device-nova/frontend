@@ -99,10 +99,7 @@ export default function Navbar() {
 
         <div className="hidden lg:flex items-center gap-4">
           <ThemeToggle />
-          <DevNoButton
-            href="/#final-cta"
-            onClick={(e) => handleSectionClick(e, 'final-cta')}
-          />
+          <DevNoButton href="/product" />
         </div>
 
         {/* Mobile controls */}
@@ -144,11 +141,7 @@ export default function Navbar() {
                 </li>
               ))}
               <li className="pt-4">
-                <DevNoButton
-                  href="/#final-cta"
-                  onClick={(e) => handleSectionClick(e, 'final-cta')}
-                  className="w-full justify-center"
-                />
+                <DevNoButton href="/product" className="w-full justify-center" />
               </li>
             </ul>
           </motion.div>

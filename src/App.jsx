@@ -15,6 +15,8 @@ import Terms from './pages/Terms.jsx';
 import Blog from './pages/Blog.jsx';
 import BlogPost from './pages/BlogPost.jsx';
 import NotFound from './pages/NotFound.jsx';
+import Product from './pages/Product.jsx';
+
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -29,6 +31,8 @@ function AnimatedRoutes() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/product" element={<Product />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
