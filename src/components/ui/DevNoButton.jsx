@@ -107,7 +107,7 @@ export default function DevNoButton({ href, onClick, className = '' }) {
           textShadow: hovered ? 'none' : '0 0 8px rgba(0,217,255,0.4)',
         }}
       >
-        DevNo_v1
+        Nova Core
       </span>
 
       {/* Status dot */}

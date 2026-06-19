@@ -61,6 +61,29 @@
     text-transform: uppercase;
   }
 
+  .legal-section ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .legal-section ul li {
+    padding-left: 1.25rem;
+    position: relative;
+  }
+  .legal-section ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--accent-cyan);
+    opacity: 0.6;
+  }
+  .legal-section ul li strong {
+    color: var(--fg-primary);
+  }
+
   .container-base {
     @apply max-w-7xl mx-auto px-6 md:px-10;
   }

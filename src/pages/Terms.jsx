@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import PageHeader from '../components/ui/PageHeader.jsx';
 
 // TODO-CONTENT: placeholder terms of service — must be reviewed by
@@ -240,6 +241,15 @@ function useActiveSection(sectionIds) {
   return activeId;
 }
 
+const itemVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: 'easeOut', delay: i * 0.04 },
+  }),
+};
+
 export default function Terms() {
   const flatSections = flattenSections(SECTIONS);
   const sectionIds = flatSections.map((s) => s.id);
@@ -247,62 +257,92 @@ export default function Terms() {
 
   return (
     <>
-      <PageHeader
-        eyebrow="Legal"
-        title="Terms of Service"
-        description="The terms governing access to the Device-Nova platform, edge runtime, and associated services."
-      />
-      <p className="container-base text-center mb-12 -mt-6">
-        <span className="font-mono text-xs text-muted/60">Last updated June 2026</span>
-      </p>
+      <div className="relative overflow-hidden">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          aria-hidden="true"
+          style={{
+            background:
+              'radial-gradient(ellipse 70% 40% at 50% 25%, rgba(0,217,255,0.06) 0%, transparent 60%)',
+          }}
+        />
+        <PageHeader
+          eyebrow="Legal"
+          title="Terms of Service"
+          description="The terms governing access to the Device-Nova platform, edge runtime, and associated services."
+        />
+        <p className="container-base text-center pb-14">
+          <span className="font-mono text-[0.65rem] tracking-widest3 uppercase text-muted/40">
+            Last updated — June 2026
+          </span>
+        </p>
+      </div>
 
       <section className="container-base pb-32">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
-          {/* Table of contents — sticky sidebar */}
+        <div className="grid grid-cols-1 lg:grid-cols-6 gap-12">
           <nav
-            className="lg:col-span-1 lg:sticky lg:top-32 lg:self-start"
+            className="lg:col-span-2 lg:sticky lg:top-32 lg:self-start"
             aria-label="Table of contents"
           >
-            <ul className="space-y-1.5">
-              {flatSections.map((s) => (
-                <li key={s.id}>
-                  <a
-                    href={`#${s.id}`}
-                    className={`block text-sm transition-colors duration-300 rounded-sm focus-visible:ring-2 focus-visible:ring-cyan ${
-                      s.depth === 1 ? 'pl-4' : ''
-                    } ${
-                      activeId === s.id
-                        ? 'text-cyan font-medium'
-                        : 'text-muted hover:text-primary'
-                    }`}
-                  >
-                    {s.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div className="backdrop-blur-xl bg-surface/40 border border-border rounded-2xl p-5 lg:p-6">
+              <p className="font-mono text-[0.65rem] tracking-widest3 uppercase text-muted/40 mb-5">
+                On this page
+              </p>
+              <ul className="space-y-[3px]">
+                {flatSections.map((s) => (
+                  <li key={s.id} className="border-b border-border/10 pb-2 last:border-b-0 last:pb-0">
+                    <a
+                      href={`#${s.id}`}
+                      className={`block text-sm transition-all duration-300 rounded-lg py-1.5 focus-visible:ring-2 focus-visible:ring-cyan ${
+                        s.depth === 1 ? 'pl-7' : ''
+                      } ${
+                        activeId === s.id
+                          ? 'text-cyan font-medium border-l-2 border-cyan -ml-px pl-3 bg-gradient-to-r from-cyan/5 to-transparent'
+                          : 'text-muted/70 hover:text-primary border-l-2 border-transparent pl-3 hover:pl-4'
+                      }`}
+                    >
+                      {s.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </nav>
 
-          {/* Content — reading column */}
-          <div className="lg:col-span-3 max-w-3xl space-y-10">
-            {SECTIONS.map((section) => (
-              <div key={section.id} id={section.id} className="scroll-mt-28">
-                <h2 className="font-display text-2xl font-semibold text-primary mb-4">{section.title}</h2>
-                {section.subsections ? (
-                  <div className="space-y-6">
-                    {section.subsections.map((sub, i) => (
-                      <div key={i}>
-                        <h3 className="font-display text-lg font-semibold text-primary mb-2">{sub.title}</h3>
-                        <p className="text-muted leading-relaxed">{sub.content}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="space-y-4 text-muted leading-relaxed">
-                    {section.content}
-                  </div>
-                )}
-              </div>
+          <div className="lg:col-span-4 max-w-3xl space-y-12">
+            {SECTIONS.map((section, index) => (
+              <motion.div
+                key={section.id}
+                id={section.id}
+                className="scroll-mt-28"
+                custom={index}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.15 }}
+                variants={itemVariants}
+              >
+                <div className="rounded-2xl border border-border/50 bg-surface/20 backdrop-blur-sm p-8 lg:p-10">
+                  <h2 className="font-display text-2xl font-semibold text-primary mb-5 tracking-tight">
+                    {section.title}
+                  </h2>
+                  {section.subsections ? (
+                    <div className="space-y-8">
+                      {section.subsections.map((sub, i) => (
+                        <div key={i}>
+                          <h3 className="font-display text-lg font-semibold text-primary mb-2.5 tracking-tight">
+                            {sub.title}
+                          </h3>
+                          <p className="text-muted leading-relaxed">{sub.content}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="space-y-4 text-muted leading-relaxed">
+                      {section.content}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>

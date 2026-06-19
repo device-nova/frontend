@@ -76,12 +76,12 @@ export default function Hero() {
       </motion.p>
 
       <motion.div variants={heroItemVariants} className="flex flex-wrap items-center gap-4 mt-10">
-        <Button variant="primary" size="lg" as="a" href="/contact">
-          Request Demo
+        <Button variant="primary" size="lg" as="a" href="/about">
+          Learn More
           <ArrowRight size={18} aria-hidden="true" />
         </Button>
-        <Button variant="secondary" size="lg" as="a" href="/#platform">
-          View Platform
+        <Button variant="secondary" size="lg" as="a" href="/contact">
+          Get in Touch
           <ChevronRight size={18} aria-hidden="true" />
         </Button>
       </motion.div>

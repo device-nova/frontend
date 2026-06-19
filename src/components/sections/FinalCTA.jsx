@@ -54,7 +54,7 @@ export default function FinalCTA() {
               variant="primary"
               size="lg"
             >
-              Request Demo
+              Get In Touch
               <ArrowRight size={18} aria-hidden="true" />
             </Button>
             <Button

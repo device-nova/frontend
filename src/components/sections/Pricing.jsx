@@ -35,9 +35,9 @@ const TIERS = [
     unit: '/ device / mo',
     description:
       'For production deployments across multi-site industrial operations.',
-    cta: 'Request Demo',
+    cta: 'Learn More',
     ctaVariant: 'primary',
-    ctaHref: '/contact',
+    ctaHref: '/about',
     features: [
       'Up to 500 edge devices',
       'Everything in Starter',
