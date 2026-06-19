@@ -3,53 +3,14 @@ import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import PageHeader from '../components/ui/PageHeader.jsx';
 import Badge from '../components/ui/Badge.jsx';
+import { getAllPosts } from '../data/blogPosts.js';
 
-// TODO-ASSET: replace with real CMS-backed blog posts once content is ready.
-// TODO-CONTENT: individual linked articles do not yet exist — posts link
-// to a generic placeholder route (/blog/:slug).
+// TODO-ASSET: replace with real CMS-backed blog posts and cover images
+// once content is ready. Post content now lives in src/data/blogPosts.js
+// as the single source of truth shared between this list page and the
+// individual BlogPost detail page — update content there, not here.
 
-const POSTS = [
-  {
-    slug: 'latency-budgets-industrial-ai',
-    title: 'Why inference latency matters more than model accuracy on the factory floor',
-    category: 'Engineering',
-    date: 'May 19, 2026',
-    readTime: '8 min read',
-    author: 'Maya Chen',
-    excerpt:
-      'A millisecond-level breakdown of where round-trip cloud inference loses to local processing in predictive maintenance scenarios. When a conveyor bearing is 2.3°C over baseline, you have roughly 400 ms to decide whether to trigger a stall — or let it run until catastrophic failure.',
-  },
-  {
-    slug: 'legacy-modbus-opcua-edge-ai',
-    title: 'Mapping legacy Modbus and OPC-UA fleets for edge AI readiness',
-    category: 'Integration',
-    date: 'April 28, 2026',
-    readTime: '12 min read',
-    author: 'David Okonkwo',
-    excerpt:
-      'A practical checklist for automation teams evaluating which devices in an existing fleet are ready for edge inference today. Most plants have a mix of protocols spanning three decades of hardware — here is how to prioritize without a forklift upgrade.',
-  },
-  {
-    slug: 'digital-twins-without-cloud-round-trip',
-    title: 'Digital twins without the cloud round trip',
-    category: 'Architecture',
-    date: 'March 14, 2026',
-    readTime: '10 min read',
-    author: 'Priya Nair',
-    excerpt:
-      'How distributed AI at the device layer changes the economics and latency profile of digital twin simulations. When the twin runs on the same hardware as the physical asset, the synchronization problem transforms from a network challenge to a local state-management problem.',
-  },
-  {
-    slug: 'predictive-maintenance-models',
-    title: 'Inside Device-Nova\'s predictive maintenance model pipeline',
-    category: 'Engineering',
-    date: 'February 8, 2026',
-    readTime: '15 min read',
-    author: 'Alex Voss',
-    excerpt:
-      'An end-to-end walkthrough of how sensor telemetry becomes a maintenance prediction: data ingestion, feature engineering at the edge, model quantization for ARM targets, and confidence calibration for production alerting. Includes benchmark comparisons against cloud-only baselines.',
-  },
-];
+const POSTS = getAllPosts();
 
 const containerVariants = {
   hidden: {},
@@ -114,7 +75,7 @@ export default function Blog() {
                       <Calendar size={12} aria-hidden="true" />
                       <span>{post.date}</span>
                       <span className="text-border/60">·</span>
-                      <span>{post.author}</span>
+                      <span>{post.author.name}</span>
                     </div>
                     <span className="text-cyan text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1">
                       Read <ArrowRight size={12} aria-hidden="true" />
