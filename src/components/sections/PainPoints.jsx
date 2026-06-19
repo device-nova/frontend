@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { WifiOff, Timer, HardDrive, BrainCircuit } from 'lucide-react';
-import Badge from '../ui/Badge.jsx';
+import SectionHeader from '../ui/SectionHeader.jsx';
 import Card from '../ui/Card.jsx';
 
 const PAINS = [
@@ -44,18 +44,13 @@ export default function PainPoints() {
   return (
     <section id="pain-points" className="bg-surface section-pad">
       <div className="container-base">
-        <div className="mb-14 max-w-2xl">
-          <Badge tone="amber" dot className="mb-5">
-            Industrial Pain Points
-          </Badge>
-          <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary leading-tight">
-            Cloud-only IoT has a latency problem
-          </h2>
-          <p className="mt-5 text-lg text-muted leading-relaxed">
-            Routing every inference decision through a remote data center made sense when device
-            edge hardware was too constrained to run models. That constraint no longer exists.
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow="Industrial Pain Points"
+          title="Cloud-only IoT has a latency problem"
+          description="Routing every inference decision through a remote data center made sense when device edge hardware was too constrained to run models. That constraint no longer exists."
+          tone="amber"
+          badgeDot
+        />
 
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-6"

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Factory, Zap, Truck, Building2, Bot, Flame } from 'lucide-react';
-import Badge from '../ui/Badge.jsx';
+import SectionHeader from '../ui/SectionHeader.jsx';
 
 const INDUSTRIES = [
   {
@@ -49,18 +49,11 @@ export default function IndustriesServed() {
   return (
     <section id="solutions" className="bg-void section-pad">
       <div className="container-base">
-        <div className="mb-14 max-w-2xl">
-          <Badge tone="cyan" className="mb-5">
-            Industries Served
-          </Badge>
-          <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary leading-tight">
-            Built for the environments where connectivity is a variable
-          </h2>
-          <p className="mt-5 text-lg text-muted leading-relaxed">
-            Device-Nova is designed for industrial contexts — not hypothetical IoT demos.
-            Every deployment assumption is stress-tested against real operational conditions.
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow="Industries Served"
+          title="Built for the environments where connectivity is a variable"
+          description="Device-Nova is designed for industrial contexts — not hypothetical IoT demos. Every deployment assumption is stress-tested against real operational conditions."
+        />
 
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"

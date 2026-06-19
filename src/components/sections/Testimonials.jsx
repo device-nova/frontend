@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Quote } from 'lucide-react';
-import Badge from '../ui/Badge.jsx';
+import SectionHeader from '../ui/SectionHeader.jsx';
 
 // Clearly fictional testimonials for placeholder purposes.
 // TODO-ASSET: Replace with real customer quotes and company names before launch.
@@ -53,18 +53,11 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="bg-void section-pad">
       <div className="container-base">
-        <div className="mb-14 max-w-2xl">
-          <Badge tone="cyan" className="mb-5">
-            Customer Perspectives
-          </Badge>
-          <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary leading-tight">
-            Deployed in production industrial environments
-          </h2>
-          <p className="mt-5 text-lg text-muted leading-relaxed">
-            Device-Nova is not a proof-of-concept platform. These accounts reflect live
-            deployments operating under production load.
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow="Customer Perspectives"
+          title="Deployed in production industrial environments"
+          description="Device-Nova is not a proof-of-concept platform. These accounts reflect live deployments operating under production load."
+        />
 
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
@@ -86,11 +79,13 @@ export default function Testimonials() {
                   "{t.quote}"
                 </p>
                 <div className="flex items-center gap-4 pt-4 border-t border-border">
-                  <div className="h-10 w-10 rounded-full flex items-center justify-center bg-cyan/10 border border-cyan/25 flex-shrink-0">
-                    <span className="font-mono text-xs font-semibold text-cyan" aria-hidden="true">
-                      {t.initials}
-                    </span>
-                  </div>
+                  {/* TODO-ASSET: Replace placeholder avatar URL with real customer headshots */}
+                  <img
+                    src={`https://i.pravatar.cc/80?u=${encodeURIComponent(t.name)}`}
+                    alt={t.name}
+                    className="h-12 w-12 rounded-full flex-shrink-0 object-cover border border-cyan/25 bg-void"
+                    loading="lazy"
+                  />
                   <div>
                     <p className="font-display text-sm font-semibold text-primary">{t.name}</p>
                     <p className="font-mono text-[0.65rem] tracking-wide text-muted">

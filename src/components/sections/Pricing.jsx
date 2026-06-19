@@ -100,7 +100,7 @@ export default function Pricing() {
           <div className="inline-flex items-center gap-3 mt-8 rounded-lg border border-border bg-void p-1">
             <button
               onClick={() => setAnnual(false)}
-              className={`rounded-md px-4 py-2 font-mono text-xs tracking-widest2 uppercase transition-all duration-200 focus-visible:ring-2 focus-visible:ring-cyan ${
+              className={`rounded-md px-4 py-2 min-h-[44px] font-mono text-xs tracking-widest2 uppercase transition-all duration-200 focus-visible:ring-2 focus-visible:ring-cyan ${
                 !annual ? 'bg-surface text-primary shadow-elevation' : 'text-muted'
               }`}
             >
@@ -108,7 +108,7 @@ export default function Pricing() {
             </button>
             <button
               onClick={() => setAnnual(true)}
-              className={`rounded-md px-4 py-2 font-mono text-xs tracking-widest2 uppercase transition-all duration-200 focus-visible:ring-2 focus-visible:ring-cyan ${
+              className={`rounded-md px-4 py-2 min-h-[44px] font-mono text-xs tracking-widest2 uppercase transition-all duration-200 focus-visible:ring-2 focus-visible:ring-cyan ${
                 annual ? 'bg-surface text-primary shadow-elevation' : 'text-muted'
               }`}
             >

@@ -4,7 +4,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import Badge from '../ui/Badge.jsx';
+import SectionHeader from '../ui/SectionHeader.jsx';
 import Card from '../ui/Card.jsx';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion.js';
 import { Cpu, Network, Cloud, RotateCw, MousePointerClick } from 'lucide-react';
@@ -792,14 +792,11 @@ export default function HowItWorks() {
     <section id="how-it-works" className="bg-void section-pad relative overflow-hidden">
       {/* Section header */}
       <div className="container-base mb-8 sm:mb-10">
-        <Badge tone="cyan" className="mb-4 sm:mb-5">How Edge AI Works</Badge>
-        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold text-primary leading-tight max-w-2xl">
-          AI inference at the source, not the cloud
-        </h2>
-        <p className="mt-4 sm:mt-5 text-base sm:text-lg text-muted leading-relaxed max-w-xl">
-          Explore the three layers of Device-Nova's edge intelligence architecture.
-          {use3D && ' Drag to rotate, or click a station to inspect it.'}
-        </p>
+        <SectionHeader
+          eyebrow="How Edge AI Works"
+          title="AI inference at the source, not the cloud"
+          description={`Explore the three layers of Device-Nova's edge intelligence architecture.${use3D ? ' Drag to rotate, or click a station to inspect it.' : ''}`}
+        />
       </div>
 
       {use3D ? (
@@ -857,7 +854,7 @@ export default function HowItWorks() {
                     aria-selected={isActive}
                     aria-pressed={isActive}
                     onClick={() => handleTabClick(i)}
-                    className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 sm:py-3 font-mono text-[0.65rem] sm:text-xs tracking-widest2 uppercase border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-void
+                    className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 sm:py-3 min-h-[44px] font-mono text-[0.65rem] sm:text-xs tracking-widest2 uppercase border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-void
                       ${isActive
                         ? isCloud
                           ? 'bg-amber/10 border-amber/45 text-amber shadow-glow-amber'

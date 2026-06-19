@@ -8,12 +8,12 @@ import LoadingScreen from './components/layout/LoadingScreen.jsx';
 
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
-import Careers from './pages/Careers.jsx';
 import Contact from './pages/Contact.jsx';
 import Docs from './pages/Docs.jsx';
 import Privacy from './pages/Privacy.jsx';
 import Terms from './pages/Terms.jsx';
 import Blog from './pages/Blog.jsx';
+import BlogPost from './pages/BlogPost.jsx';
 import NotFound from './pages/NotFound.jsx';
 
 function AnimatedRoutes() {
@@ -23,12 +23,12 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/careers" element={<Careers />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/docs" element={<Docs />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>

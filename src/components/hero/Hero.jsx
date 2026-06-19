@@ -59,13 +59,9 @@ export default function Hero() {
             }
       }
     >
-      <motion.span variants={heroItemVariants} className="mono-label text-cyan text-xs mb-6">
-        Edge AI · Industrial IoT
-      </motion.span>
-
       <motion.h1
         variants={heroItemVariants}
-        className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold leading-[0.95] tracking-tight max-w-4xl text-primary"
+        className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold leading-[0.95] tracking-tight max-w-4xl text-primary"
       >
         The Edge AI Device Intelligence Platform for Industrial IoT
       </motion.h1>
@@ -111,6 +107,11 @@ export default function Hero() {
           style={{ background: 'linear-gradient(to bottom, rgba(6,10,16,0.55), var(--bg-void))' }}
           aria-hidden="true"
         />
+        <div
+          className="absolute inset-x-0 top-0 h-36 z-40 pointer-events-none"
+          style={{ background: 'linear-gradient(to bottom, var(--bg-void), transparent)' }}
+          aria-hidden="true"
+        />
         {heroTextBlock}
       </section>
     );
@@ -135,6 +136,15 @@ export default function Hero() {
             </div>
           </div>
         )}
+
+        {/* Top gradient scrim — ensures consistent dark backdrop behind the fixed
+            navbar regardless of what's visible in the canvas behind it, independent
+            of the nav's own blur activation state. */}
+        <div
+          className="absolute inset-x-0 top-0 h-36 z-40 pointer-events-none"
+          style={{ background: 'linear-gradient(to bottom, var(--bg-void), transparent)' }}
+          aria-hidden="true"
+        />
 
         {/* Bottom gradient overlay for seamless transition into next section */}
         <div

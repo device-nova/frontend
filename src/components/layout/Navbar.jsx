@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '../ui/Logo.jsx';
-import Button from '../ui/Button.jsx';
+import DevNoButton from '../ui/DevNoButton.jsx';
 import ThemeToggle from '../ui/ThemeToggle.jsx';
 import { SECTION_LINKS, SECTION_IDS } from '../../constants/navigation.js';
 import { useScrollSpy } from '../../hooks/useScrollSpy.js';
@@ -52,14 +52,26 @@ export default function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? 'bg-void/80 backdrop-blur-xl border-b border-border' : 'bg-transparent'
       }`}
+      style={scrolled ? undefined : { filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.6))' }}
     >
       <nav
         aria-label="Main navigation"
         className="container-base flex items-center justify-between h-20"
       >
-        <Link to="/" className="focus-visible:ring-2 focus-visible:ring-cyan rounded-md" aria-label="Device-Nova home">
+        <button
+          onClick={() => {
+            if (isHome) {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+              navigate('/');
+              window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+          }}
+          className="flex items-center min-h-[44px] focus-visible:ring-2 focus-visible:ring-cyan rounded-md"
+          aria-label="Device-Nova home"
+        >
           <Logo />
-        </Link>
+        </button>
 
         {/* Desktop links */}
         <ul className="hidden lg:flex items-center gap-8 font-mono text-xs tracking-widest2 uppercase">
@@ -87,15 +99,10 @@ export default function Navbar() {
 
         <div className="hidden lg:flex items-center gap-4">
           <ThemeToggle />
-          <Button
-            as="a"
+          <DevNoButton
             href="/#final-cta"
             onClick={(e) => handleSectionClick(e, 'final-cta')}
-            variant="primary"
-            size="md"
-          >
-            Request Demo
-          </Button>
+          />
         </div>
 
         {/* Mobile controls */}
@@ -105,7 +112,7 @@ export default function Navbar() {
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
-            className="flex h-10 w-10 items-center justify-center rounded-md border border-border text-primary focus-visible:ring-2 focus-visible:ring-cyan"
+            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md border border-border text-primary focus-visible:ring-2 focus-visible:ring-cyan"
           >
             {mobileOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
           </button>
@@ -128,7 +135,7 @@ export default function Navbar() {
                   <a
                     href={`/#${link.id}`}
                     onClick={(e) => handleSectionClick(e, link.id)}
-                    className={`block py-3 transition-colors duration-300 ${
+                    className={`block py-3.5 transition-colors duration-300 ${
                       activeId === link.id ? 'text-cyan' : 'text-muted'
                     }`}
                   >
@@ -137,16 +144,11 @@ export default function Navbar() {
                 </li>
               ))}
               <li className="pt-4">
-                <Button
-                  as="a"
+                <DevNoButton
                   href="/#final-cta"
                   onClick={(e) => handleSectionClick(e, 'final-cta')}
-                  variant="primary"
-                  size="md"
-                  className="w-full"
-                >
-                  Request Demo
-                </Button>
+                  className="w-full justify-center"
+                />
               </li>
             </ul>
           </motion.div>

@@ -7,7 +7,7 @@ import {
   LayoutDashboard,
   CloudUpload,
 } from 'lucide-react';
-import Badge from '../ui/Badge.jsx';
+import SectionHeader from '../ui/SectionHeader.jsx';
 import Card from '../ui/Card.jsx';
 
 const FEATURES = [
@@ -63,19 +63,11 @@ export default function PlatformFeatures() {
   return (
     <section id="platform" className="bg-surface section-pad">
       <div className="container-base">
-        <div className="mb-14 max-w-2xl">
-          <Badge tone="cyan" className="mb-5">
-            Platform Features
-          </Badge>
-          <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary leading-tight">
-            A complete Edge AI stack for industrial operations
-          </h2>
-          <p className="mt-5 text-lg text-muted leading-relaxed">
-            Device-Nova is not a single component — it is a vertically integrated platform
-            that covers inference, orchestration, observability, and cloud integration from
-            a single control plane.
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow="Platform Features"
+          title="A complete Edge AI stack for industrial operations"
+          description="Device-Nova is not a single component — it is a vertically integrated platform that covers inference, orchestration, observability, and cloud integration from a single control plane."
+        />
 
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"

@@ -10,7 +10,7 @@ const VARIANTS = {
 };
 
 const SIZES = {
-  md: 'px-6 py-3 text-sm',
+  md: 'px-6 py-3 min-h-[44px] text-sm',
   lg: 'px-8 py-4 text-base',
 };
 

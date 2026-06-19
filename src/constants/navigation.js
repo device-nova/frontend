@@ -15,11 +15,11 @@ export const FOOTER_LINKS = {
   product: [
     { label: 'Platform', href: '/#platform' },
     { label: 'Pricing', href: '/#pricing' },
-    { label: 'Docs', href: '/docs', badge: 'Coming Soon' },
+    { label: 'Docs', href: '/docs' },
   ],
   company: [
     { label: 'About', href: '/about' },
-    { label: 'Careers', href: '/careers' },
+    { label: 'Testimonials', href: '/#testimonials' },
     { label: 'Contact', href: '/contact' },
   ],
   legal: [
@@ -28,6 +28,6 @@ export const FOOTER_LINKS = {
   ],
   resources: [
     { label: 'Blog', href: '/blog' },
-    { label: 'Developer API / Docs', href: '/docs', badge: 'Coming Soon' },
+    { label: 'Developer API / Docs', href: '/docs' },
   ],
 };

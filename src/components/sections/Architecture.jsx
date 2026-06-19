@@ -1,7 +1,8 @@
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { Cpu, Network, Cloud, Shield, BarChart2, ChevronRight } from 'lucide-react';
-import Badge from '../ui/Badge.jsx';
+import SectionHeader from '../ui/SectionHeader.jsx';
+import DataFlowSimulation from '../ui/DataFlowSimulation.jsx';
 
 const LAYERS = [
   {
@@ -67,35 +68,45 @@ const colorMap = {
   },
 };
 
+/* Connector chevron between layer cards: a quiet, continuous
+   brightness pulse hints at directional flow without competing
+   with the main animated diagram further down the section. */
+function FlowChevron({ delay, reduceMotion }) {
+  if (reduceMotion) {
+    return <ChevronRight size={16} className="text-cyan rotate-90 lg:rotate-0" aria-hidden="true" />;
+  }
+  return (
+    <motion.div
+      animate={{ opacity: [0.35, 1, 0.35] }}
+      transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut', delay }}
+    >
+      <ChevronRight size={16} className="text-cyan rotate-90 lg:rotate-0" aria-hidden="true" />
+    </motion.div>
+  );
+}
+
 export default function Architecture() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
+  const reduceMotion = useReducedMotion();
 
   return (
     <section id="architecture" className="bg-surface section-pad" ref={ref}>
       <div className="container-base">
-        <div className="mb-14 max-w-2xl">
-          <Badge tone="cyan" className="mb-5">
-            Architecture
-          </Badge>
-          <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary leading-tight">
-            A distributed intelligence stack, top to bottom
-          </h2>
-          <p className="mt-5 text-lg text-muted leading-relaxed">
-            Device-Nova is structured as five coherent layers, each independently deployable
-            and observable. No layer creates a hard dependency on cloud availability.
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow="Architecture"
+          title="A distributed intelligence stack, top to bottom"
+          description="Device-Nova is structured as five coherent layers, each independently deployable and observable. No layer creates a hard dependency on cloud availability."
+        />
 
-        {/* Pipeline visualization */}
-        <div className="flex flex-col lg:flex-row items-stretch gap-0 lg:gap-0">
+        {/* Layer cards with directional connector chevrons */}
+        <div className="flex flex-col lg:flex-row items-stretch gap-0">
           {LAYERS.map((layer, i) => {
             const c = colorMap[layer.color];
             return (
               <div key={layer.id} className="flex flex-col lg:flex-row items-stretch flex-1 min-w-0">
-                {/* Layer card */}
                 <motion.div
-                  className={`flex-1 rounded-2xl border ${c.border} bg-void p-5 flex flex-col gap-4`}
+                  className={`flex-1 rounded-2xl border ${c.border} bg-void p-4 lg:p-5 flex flex-col gap-3`}
                   initial={{ opacity: 0, y: 24 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.1 * i, duration: 0.55, ease: 'easeOut' }}
@@ -119,16 +130,14 @@ export default function Architecture() {
                   </ul>
                 </motion.div>
 
-                {/* Connector arrow between layers */}
                 {i < LAYERS.length - 1 && (
                   <motion.div
                     className="flex lg:flex-col items-center justify-center px-2 py-2 lg:py-0 lg:px-1 flex-shrink-0"
                     initial={{ opacity: 0 }}
                     animate={inView ? { opacity: 1 } : {}}
                     transition={{ delay: 0.1 * i + 0.3, duration: 0.4 }}
-                    aria-hidden="true"
                   >
-                    <ChevronRight size={16} className="text-cyan rotate-90 lg:rotate-0" />
+                    <FlowChevron delay={i * 0.3} reduceMotion={reduceMotion} />
                   </motion.div>
                 )}
               </div>
@@ -136,23 +145,8 @@ export default function Architecture() {
           })}
         </div>
 
-        {/* Data-flow annotation */}
-        <motion.div
-          className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 rounded-2xl border border-border bg-void px-8 py-5"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.7, duration: 0.5 }}
-        >
-          <div className="flex items-center gap-3 flex-shrink-0">
-            <span className="h-2 w-2 rounded-full bg-cyan animate-pulse-glow" aria-hidden="true" />
-            <span className="font-mono text-xs tracking-widest2 uppercase text-cyan">Data flow</span>
-          </div>
-          <p className="text-sm text-muted">
-            Sensor data is processed and acted upon entirely within the Edge Node layer.
-            Only aggregated insights and retraining signals traverse upward to Cloud Sync —
-            raw telemetry never leaves the device unless explicitly configured.
-          </p>
-        </motion.div>
+        {/* Unified, properly-scaled animated flow diagram */}
+        <DataFlowSimulation />
       </div>
     </section>
   );

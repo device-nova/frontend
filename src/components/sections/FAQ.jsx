@@ -1,4 +1,4 @@
-import Badge from '../ui/Badge.jsx';
+import SectionHeader from '../ui/SectionHeader.jsx';
 import Accordion from '../ui/Accordion.jsx';
 
 const FAQ_ITEMS = [
@@ -48,20 +48,13 @@ export default function FAQ() {
   return (
     <section id="faq" className="bg-void section-pad">
       <div className="container-base">
-        <div className="mb-14 max-w-2xl">
-          <Badge tone="cyan" className="mb-5">
-            FAQ
-          </Badge>
-          <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary leading-tight">
-            Common questions from evaluation teams
-          </h2>
-          <p className="mt-5 text-lg text-muted leading-relaxed">
-            Answers reflect the most frequent technical and commercial questions
-            raised during enterprise evaluation cycles.
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow="FAQ"
+          title="Common questions from evaluation teams"
+          description="Answers reflect the most frequent technical and commercial questions raised during enterprise evaluation cycles."
+        />
 
-        <div className="max-w-3xl">
+        <div className="max-w-3xl mx-auto">
           <Accordion items={FAQ_ITEMS} />
         </div>
       </div>
