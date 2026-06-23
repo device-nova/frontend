@@ -93,6 +93,22 @@
   }
 }
 
+/* Chatwoot custom launcher animations */
+@keyframes chatwootRingRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes chatwootRingRotateReverse {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes chatwootConicSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /* Respect reduced motion globally: kill ambient/looping animation by default,
    each animated component additionally checks this via JS where logic
    (not just CSS) needs to branch (e.g. GSAP scrub, count-up). */

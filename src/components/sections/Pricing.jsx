@@ -15,7 +15,8 @@ const TIERS = [
       'For pilot programs and proof-of-concept deployments up to 25 devices.',
     cta: 'Start Free Trial',
     ctaVariant: 'secondary',
-    ctaHref: '/contact',
+    stripeMonthly: import.meta.env.VITE_STRIPE_STARTER_MONTHLY,
+    stripeAnnual: import.meta.env.VITE_STRIPE_STARTER_ANNUAL,
     features: [
       'Up to 25 edge devices',
       'Edge AI inference engine',
@@ -35,9 +36,10 @@ const TIERS = [
     unit: '/ device / mo',
     description:
       'For production deployments across multi-site industrial operations.',
-    cta: 'Learn More',
+    cta: 'Subscribe',
     ctaVariant: 'primary',
-    ctaHref: '/about',
+    stripeMonthly: import.meta.env.VITE_STRIPE_PROFESSIONAL_MONTHLY,
+    stripeAnnual: import.meta.env.VITE_STRIPE_PROFESSIONAL_ANNUAL,
     features: [
       'Up to 500 edge devices',
       'Everything in Starter',
@@ -62,7 +64,7 @@ const TIERS = [
       'For enterprise-scale deployments with custom SLAs, on-premise options, and dedicated engineering support.',
     cta: 'Contact Sales',
     ctaVariant: 'secondary',
-    ctaHref: '/contact',
+    href: '/contact',
     features: [
       'Unlimited edge devices',
       'Everything in Professional',
@@ -77,6 +79,11 @@ const TIERS = [
     highlighted: false,
   },
 ];
+
+function getStripeUrl(tier, annual) {
+  if (!tier.stripeMonthly || !tier.stripeAnnual) return null;
+  return annual ? tier.stripeAnnual : tier.stripeMonthly;
+}
 
 export default function Pricing() {
   const [annual, setAnnual] = useState(false);
@@ -183,7 +190,7 @@ export default function Pricing() {
 
               <Button
                 as="a"
-                href={tier.ctaHref}
+                href={tier.href || getStripeUrl(tier, annual)}
                 variant={tier.ctaVariant}
                 size="md"
                 className="w-full justify-center"

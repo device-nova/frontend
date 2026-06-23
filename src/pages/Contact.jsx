@@ -1,9 +1,10 @@
-import { useForm, ValidationError } from '@formspree/react';
+import { useState } from 'react';
 import PageHeader from '../components/ui/PageHeader.jsx';
 import Input from '../components/ui/Input.jsx';
 import Button from '../components/ui/Button.jsx';
 import Card from '../components/ui/Card.jsx';
-import { CheckCircle2, Mail, Clock, MapPin, Building2 } from 'lucide-react';
+import TurnstileWidget from '../components/ui/TurnstileWidget.jsx';
+import { CheckCircle2, Mail, Clock, Building2 } from 'lucide-react';
 
 const EVALUATION_OPTIONS = [
   { value: '', label: 'Select an option…' },
@@ -15,7 +16,46 @@ const EVALUATION_OPTIONS = [
 ];
 
 export default function Contact() {
-  const [state, handleSubmit] = useForm('xaqgnwrd');
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [succeeded, setSucceeded] = useState(false);
+  const [error, setError] = useState('');
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError('');
+
+    if (!captchaToken) {
+      setError('Please complete the security check.');
+      return;
+    }
+
+    setSubmitting(true);
+
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form));
+    data.captchaToken = captchaToken;
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.error || 'Something went wrong.');
+      }
+
+      setSucceeded(true);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   return (
     <>
@@ -25,7 +65,7 @@ export default function Contact() {
         description="Tell us about your environment — device count, protocols in use, and what you're trying to solve — and we'll route you to the right engineer."
       />
 
-      {state.succeeded ? (
+      {succeeded ? (
         <section className="container-base pb-32 max-w-xl">
           <div className="bg-surface border border-border rounded-2xl p-10 text-center">
             <CheckCircle2 size={40} className="text-success mx-auto mb-4" aria-hidden="true" />
@@ -44,7 +84,6 @@ export default function Contact() {
                   <Input id="lastName" name="lastName" label="Last name" required autoComplete="family-name" />
                 </div>
                 <Input id="email" name="email" type="email" label="Work email" required autoComplete="email" />
-                <ValidationError prefix="Email" field="email" errors={state.errors} />
                 <Input id="company" name="company" label="Company" required autoComplete="organization" />
 
                 {/* Dropdown */}
@@ -84,8 +123,19 @@ export default function Contact() {
                   />
                 </div>
 
-                <Button type="submit" variant="primary" size="lg" className="w-full" disabled={state.submitting}>
-                  {state.submitting ? 'Sending...' : 'Send Message'}
+                <div className="flex justify-center">
+                  <TurnstileWidget
+                    onVerify={(token) => setCaptchaToken(token)}
+                    onError={() => setError('Security check failed to load. Please refresh the page.')}
+                  />
+                </div>
+
+                {error && (
+                  <div className="text-red-500 text-sm text-center font-medium">{error}</div>
+                )}
+
+                <Button type="submit" variant="primary" size="lg" className="w-full" disabled={submitting}>
+                  {submitting ? 'Sending...' : 'Send Message'}
                 </Button>
               </form>
             </div>

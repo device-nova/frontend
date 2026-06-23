@@ -1,6 +1,9 @@
+import { lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from './Navbar.jsx';
 import Footer from './Footer.jsx';
+
+const ChatwootLauncher = lazy(() => import('../ui/ChatwootLauncher.jsx'));
 
 export default function Layout({ children }) {
   return (
@@ -16,6 +19,9 @@ export default function Layout({ children }) {
         {children}
       </motion.main>
       <Footer />
+      <Suspense fallback={null}>
+        <ChatwootLauncher />
+      </Suspense>
     </div>
   );
 }
