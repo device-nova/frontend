@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RadarSweep from '../ui/RadarSweep.jsx';
-import Logo from '../ui/Logo.jsx';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion.js';
 
 const SESSION_KEY = 'device-nova-loaded';
@@ -40,7 +39,7 @@ export default function LoadingScreen({ onComplete }) {
 
     window.sessionStorage.setItem(SESSION_KEY, 'true');
 
-    const duration = reducedMotion ? 900 : 1900 + Math.random() * 500; // 1.9-2.4s
+    const duration = reducedMotion ? 900 : 1900 + Math.random() * 500;
     const start = performance.now();
 
     function tick(now) {
@@ -77,26 +76,79 @@ export default function LoadingScreen({ onComplete }) {
           role="status"
           aria-live="polite"
         >
-          <div className="mb-10">
-            <Logo className="scale-125" />
-          </div>
+          <motion.div
+            initial={reducedMotion ? {} : { scale: 0.85, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+            className="mb-12"
+          >
+            <RadarSweep
+              active={!reducedMotion}
+              size={reducedMotion ? 120 : 200}
+              centerImage="/favicon.png"
+            />
+          </motion.div>
 
-          <div className="mb-10">
-            <RadarSweep active={!reducedMotion} size={reducedMotion ? 96 : 160} />
-          </div>
-
-          <div className="w-64 sm:w-80">
-            <div className="h-1 w-full rounded-full bg-surface-raised overflow-hidden">
-              <div
-                className="h-full bg-gradient-primary rounded-full"
-                style={{ width: `${progress}%`, transition: reducedMotion ? 'none' : 'width 80ms linear' }}
-              />
+          <motion.div
+            className="w-72 sm:w-96"
+            initial={reducedMotion ? {} : { y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
+          >
+            <div className="h-1.5 w-full rounded-full bg-surface-raised overflow-hidden">
+              <motion.div
+                className="h-full rounded-full"
+                style={{
+                  background: 'linear-gradient(90deg, #00d9ff, #7c3aed, #00d9ff)',
+                  backgroundSize: '200% 100%',
+                }}
+                animate={
+                  reducedMotion
+                    ? {}
+                    : { backgroundPosition: ['0% 0%', '200% 0%'] }
+                }
+                transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              >
+                <div
+                  className="h-full bg-gradient-primary rounded-full"
+                  style={{ width: `${progress}%`, transition: reducedMotion ? 'none' : 'width 80ms linear' }}
+                />
+              </motion.div>
             </div>
             <div className="flex items-center justify-between mt-3 font-mono text-xs text-muted tracking-wide">
-              <span>{getStatusLabel(progress)}</span>
-              <span>{Math.floor(progress)}%</span>
+              <motion.span
+                key={getStatusLabel(progress)}
+                initial={reducedMotion ? {} : { opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.25 }}
+              >
+                {getStatusLabel(progress)}
+              </motion.span>
+              <motion.span
+                key={Math.floor(progress / 10)}
+                initial={reducedMotion ? {} : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+              >
+                {Math.floor(progress)}%
+              </motion.span>
             </div>
-          </div>
+          </motion.div>
+
+          {!reducedMotion && (
+            <motion.div
+              className="absolute bottom-12 left-1/2 -translate-x-1/2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 0.5, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan/50" />
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan/30" />
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan/10" />
+              </div>
+            </motion.div>
+          )}
         </motion.div>
       )}
     </AnimatePresence>

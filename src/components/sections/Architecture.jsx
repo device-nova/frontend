@@ -1,13 +1,18 @@
 import { useRef } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
-import { Cpu, Network, Cloud, Shield, BarChart2, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import SectionHeader from '../ui/SectionHeader.jsx';
 import DataFlowSimulation from '../ui/DataFlowSimulation.jsx';
+import iconEdgeNodes from '../../assets/images/architecture/edge-nodes.png';
+import iconOrchestration from '../../assets/images/architecture/orchestration.png';
+import iconSecurity from '../../assets/images/architecture/security.png';
+import iconCloudSync from '../../assets/images/architecture/cloud-sync.png';
+import iconAnalytics from '../../assets/images/architecture/analytics.png';
 
 const LAYERS = [
   {
     id: 'edge-nodes',
-    icon: Cpu,
+    icon: iconEdgeNodes,
     title: 'Edge Nodes',
     sublabel: 'Device Layer',
     items: ['AI inference engine', 'Local data store', 'Sensor fusion', 'Autonomous control'],
@@ -15,7 +20,7 @@ const LAYERS = [
   },
   {
     id: 'orchestration',
-    icon: Network,
+    icon: iconOrchestration,
     title: 'Orchestration Layer',
     sublabel: 'Platform Core',
     items: ['Model versioning', 'Fleet management', 'Alert routing', 'Schema registry'],
@@ -23,7 +28,7 @@ const LAYERS = [
   },
   {
     id: 'security',
-    icon: Shield,
+    icon: iconSecurity,
     title: 'Security Fabric',
     sublabel: 'Cross-Layer',
     items: ['mTLS between nodes', 'Signed model artifacts', 'RBAC enforcement', 'Audit log stream'],
@@ -31,7 +36,7 @@ const LAYERS = [
   },
   {
     id: 'cloud-sync',
-    icon: Cloud,
+    icon: iconCloudSync,
     title: 'Cloud Sync',
     sublabel: 'Optional Egress',
     items: ['Insight aggregation', 'Retraining candidate export', 'Compliance archival', 'BI connector'],
@@ -39,7 +44,7 @@ const LAYERS = [
   },
   {
     id: 'analytics',
-    icon: BarChart2,
+    icon: iconAnalytics,
     title: 'Intelligence Dashboard',
     sublabel: 'Operator Plane',
     items: ['Real-time observability', 'Trend analytics', 'Capacity planning', 'Model performance'],
@@ -111,8 +116,8 @@ export default function Architecture() {
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.1 * i, duration: 0.55, ease: 'easeOut' }}
                 >
-                  <div className={`h-10 w-10 rounded-xl flex items-center justify-center border ${c.bg} ${c.glow}`}>
-                    <layer.icon size={18} className={c.icon} aria-hidden="true" />
+                  <div className={`h-14 w-14 rounded-xl flex items-center justify-center border ${c.bg} ${c.glow}`}>
+                    <img src={layer.icon} alt="" aria-hidden="true" className="h-9 w-9 object-contain" />
                   </div>
                   <div>
                     <p className="font-mono text-[0.65rem] tracking-widest2 text-muted uppercase mb-1">

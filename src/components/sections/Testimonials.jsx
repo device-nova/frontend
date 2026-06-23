@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
 import { Quote } from 'lucide-react';
 import SectionHeader from '../ui/SectionHeader.jsx';
+import marcusHolm from '../../assets/images/testimonials/marcus-holm.png';
+import priyaVenkataraman from '../../assets/images/testimonials/priya-venkataraman.png';
+import jamesOkoro from '../../assets/images/testimonials/james-okoro.png';
+import sandraLeclerc from '../../assets/images/testimonials/sandra-leclerc.png';
 
-// Clearly fictional testimonials for placeholder purposes.
-// TODO-ASSET: Replace with real customer quotes and company names before launch.
 const TESTIMONIALS = [
   {
     quote:
@@ -11,7 +13,7 @@ const TESTIMONIALS = [
     name: 'Marcus Holm',
     title: 'VP of Operations',
     company: 'Nordic Industrial Group',
-    initials: 'MH',
+    image: marcusHolm,
   },
   {
     quote:
@@ -19,7 +21,7 @@ const TESTIMONIALS = [
     name: 'Priya Venkataraman',
     title: 'Plant Automation Lead',
     company: 'Helios Energy Solutions',
-    initials: 'PV',
+    image: priyaVenkataraman,
   },
   {
     quote:
@@ -27,7 +29,7 @@ const TESTIMONIALS = [
     name: 'James Okoro',
     title: 'Director of AI Engineering',
     company: 'Apex Manufacturing Systems',
-    initials: 'JO',
+    image: jamesOkoro,
   },
   {
     quote:
@@ -35,7 +37,7 @@ const TESTIMONIALS = [
     name: 'Sandra Leclerc',
     title: 'Systems Architect',
     company: 'Continental Logistics Group',
-    initials: 'SL',
+    image: sandraLeclerc,
   },
 ];
 
@@ -79,11 +81,10 @@ export default function Testimonials() {
                   "{t.quote}"
                 </p>
                 <div className="flex items-center gap-4 pt-4 border-t border-border">
-                  {/* TODO-ASSET: Replace placeholder avatar URL with real customer headshots */}
                   <img
-                    src={`https://i.pravatar.cc/80?u=${encodeURIComponent(t.name)}`}
+                    src={t.image}
                     alt={t.name}
-                    className="h-12 w-12 rounded-full flex-shrink-0 object-cover border border-cyan/25 bg-void"
+                    className="h-20 w-20 rounded-full flex-shrink-0 object-cover border border-cyan/25 bg-void"
                     loading="lazy"
                   />
                   <div>

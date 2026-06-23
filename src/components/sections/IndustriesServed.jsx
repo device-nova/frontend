@@ -1,35 +1,40 @@
 import { motion } from 'framer-motion';
-import { Factory, Zap, Truck, Building2, Bot, Flame } from 'lucide-react';
 import SectionHeader from '../ui/SectionHeader.jsx';
+import iconManufacturing from '../../assets/images/industries/manufacturing.png';
+import iconEnergy from '../../assets/images/industries/energy.png';
+import iconLogistics from '../../assets/images/industries/logistics.png';
+import iconSmartCities from '../../assets/images/industries/smart-cities.png';
+import iconRobotics from '../../assets/images/industries/robotics.png';
+import iconOilGas from '../../assets/images/industries/oil-gas.png';
 
 const INDUSTRIES = [
   {
-    icon: Factory,
+    icon: iconManufacturing,
     title: 'Manufacturing',
     description: 'Assembly-line anomaly detection, quality control, and predictive maintenance on CNC machines and robotics.',
   },
   {
-    icon: Zap,
+    icon: iconEnergy,
     title: 'Energy & Utilities',
     description: 'Real-time grid edge monitoring, turbine health inference, and autonomous load balancing without cloud dependency.',
   },
   {
-    icon: Truck,
+    icon: iconLogistics,
     title: 'Logistics & Fleet',
     description: 'On-vehicle AI for route optimization, fault prediction on drive-train systems, and warehouse automation.',
   },
   {
-    icon: Building2,
+    icon: iconSmartCities,
     title: 'Smart Cities',
     description: 'Traffic signal intelligence, environmental sensor networks, and utility infrastructure management at the edge.',
   },
   {
-    icon: Bot,
+    icon: iconRobotics,
     title: 'Robotics & Automation',
     description: 'Closed-loop feedback for collaborative robots and autonomous guided vehicles using local AI inference.',
   },
   {
-    icon: Flame,
+    icon: iconOilGas,
     title: 'Oil & Gas',
     description: 'Remote pipeline integrity monitoring, compressor anomaly detection, and offshore rig safety systems in connectivity-limited environments.',
   },
@@ -62,14 +67,14 @@ export default function IndustriesServed() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
         >
-          {INDUSTRIES.map(({ icon: Icon, title, description }) => (
+          {INDUSTRIES.map(({ icon, title, description }) => (
             <motion.div
               key={title}
               variants={itemVariants}
               className="group flex gap-5 rounded-2xl border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-hover hover:shadow-glow-cyan"
             >
-              <div className="flex-shrink-0 h-11 w-11 rounded-xl flex items-center justify-center bg-cyan/10 border border-cyan/20 transition-all duration-300 group-hover:bg-cyan/15 group-hover:shadow-glow-cyan">
-                <Icon size={20} className="text-cyan" aria-hidden="true" />
+              <div className="flex-shrink-0 h-16 w-16 rounded-xl flex items-center justify-center bg-cyan/10 border border-cyan/20 transition-all duration-300 group-hover:bg-cyan/15 group-hover:shadow-glow-cyan">
+                <img src={icon} alt="" aria-hidden="true" className="h-10 w-10 object-contain" />
               </div>
               <div>
                 <h3 className="font-display text-base font-semibold text-primary mb-2">{title}</h3>
