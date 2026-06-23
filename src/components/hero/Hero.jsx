@@ -63,15 +63,15 @@ export default function Hero() {
         variants={heroItemVariants}
         className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold leading-[0.95] tracking-tight max-w-4xl text-primary"
       >
-        The Edge AI Device Intelligence Platform for Industrial IoT
+        The Edge Intelligence Platform for Industrial IoT
       </motion.h1>
 
       <motion.p
         variants={heroItemVariants}
         className="mt-8 text-lg md:text-xl text-muted leading-relaxed max-w-2xl"
       >
-        Real-time device monitoring, local AI processing, and autonomous industrial
-        decision-making — running directly on your sensors, PLCs, and gateways, with
+        Real-time device monitoring, local edge processing, and autonomous industrial
+        decision-making running directly on your sensors, PLCs, and gateways, with
         near-zero latency and no dependency on a cloud round trip.
       </motion.p>
 

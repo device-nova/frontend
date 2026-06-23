@@ -8,8 +8,8 @@ const TIERS = [
   {
     id: 'starter',
     name: 'Starter',
-    monthlyPrice: 199,
-    annualPrice: 159,
+    monthlyPrice: 99,
+    annualPrice: 79,
     unit: '/ device / mo',
     description:
       'For pilot programs and proof-of-concept deployments up to 25 devices.',
@@ -30,8 +30,8 @@ const TIERS = [
   {
     id: 'professional',
     name: 'Professional',
-    monthlyPrice: 499,
-    annualPrice: 399,
+    monthlyPrice: 240,
+    annualPrice: 192,
     unit: '/ device / mo',
     description:
       'For production deployments across multi-site industrial operations.',

@@ -6,29 +6,28 @@ import SectionHeader from '../components/ui/SectionHeader.jsx';
 import Card from '../components/ui/Card.jsx';
 import Button from '../components/ui/Button.jsx';
 
-// TODO-CONTENT: placeholder leadership names, bios, and founding milestones —
-// replace with real company information before production launch.
+
 
 const MISMATCHES = [
   {
     icon: Timer,
     title: 'Round-Trip Latency',
-    body: 'Every decision routed through the cloud adds 80–400 ms of overhead. In a fast-moving assembly line or safety-critical process, that window is the difference between a caught fault and unplanned downtime.',
+    body: 'Every cloud-routed decision adds 80 to 400 ms of overhead — enough to miss a fault on a fast-moving line.',
   },
   {
     icon: WifiOff,
     title: 'Connectivity Dependency',
-    body: 'Remote sites — mines, offshore rigs, cellular-dead factory floors — operate with intermittent or metered uplink. Cloud-dependent inference stops working the moment the link drops.',
+    body: 'Mines, offshore rigs, and remote factory floors run on intermittent uplinks. When the connection drops, cloud-dependent systems stop working entirely.',
   },
   {
     icon: HardDrive,
     title: 'Unconstrained Bandwidth Cost',
-    body: 'Streaming raw sensor telemetry at scale generates terabytes per day. The ingestion and storage bill grows proportionally with your device estate, whether or not the cloud made a useful decision.',
+    body: 'Raw telemetry at scale generates terabytes per day. Ingestion costs grow with your device count, regardless of whether useful decisions are made.',
   },
   {
     icon: BrainCircuit,
     title: 'No Device-Level Intelligence',
-    body: 'Traditional SCADA and PLC systems are deterministic rule-engines — they execute what they were programmed to do. They cannot learn from operational patterns, detect novel anomalies, or adapt to changing conditions without manual re-engineering.',
+    body: 'Traditional SCADA and PLC systems only execute what they were programmed to do. They cannot detect novel anomalies or adapt without manual re-engineering.',
   },
 ];
 
@@ -36,30 +35,30 @@ const MILESTONES = [
   { year: '2021', title: 'Company Founded', description: 'Device-Nova was incorporated in San Francisco by a team of embedded systems and distributed computing engineers who had spent the previous decade deploying industrial IoT systems and watching cloud-only architectures fail in real production environments.' },
   { year: '2022', title: 'First Pilot Deployment', description: 'The platform was deployed in a tier-1 automotive manufacturing plant for real-time anomaly detection on robotic assembly arms — the first production validation of the edge inference engine outside a lab environment.' },
   { year: '2023', title: 'Platform v1 Launch', description: 'General availability of the Device-Nova edge intelligence platform, including the inference engine, device orchestration layer, and edge-to-cloud sync, with support for NVIDIA Jetson and ARM Cortex-M class hardware.' },
-  { year: '2024', title: 'Series A & Fleet Scaling', description: 'Closed a $12M Series A round led by Meridian Venture Partners. The platform scaled to manage fleets exceeding 5,000 devices across three continents in manufacturing, energy, and logistics.' },
+  { year: '2024', title: 'Fleet Scaling Milestone', description: 'The platform scaled to manage fleets exceeding 5,000 devices across three continents in manufacturing, energy, and logistics.' },
   { year: '2025', title: 'Mesh Intelligence Layer', description: 'Released the distributed intelligence mesh enabling coordinated inference across device groups without central cloud orchestration — the architecture the platform was originally designed to deliver.' },
 ];
 
 const LEADERSHIP = [
   {
     name: 'Alex Voss',
-    title: 'Co-Founder & CEO',
-    bio: 'Previously led embedded systems at a Fortune 500 industrial automation firm, where he oversaw the deployment of over 50,000 field devices across oil and gas, manufacturing, and utility infrastructure. Background in computer engineering and control theory.',
+    title: 'COO',
+    bio: 'Fortune 500 embedded systems leader with 50,000-plus field device deployments across oil and gas, manufacturing, and utilities.',
   },
   {
     name: 'Maya Chen',
-    title: 'Co-Founder & CTO',
-    bio: 'Architected distributed inference pipelines at a major cloud provider before leaving to build edge-native infrastructure. Published research on on-device model pruning for resource-constrained hardware at ICML and SysML.',
+    title: 'CTO',
+    bio: 'Former cloud infrastructure engineer turned edge-native builder. Research background in on-device model compression.',
   },
   {
     name: 'David Okonkwo',
     title: 'VP of Engineering',
-    bio: 'Led platform engineering for an industrial IoT unicorn from Series A to acquisition, scaling the engineering organization from 8 to 80. Spent the early part of his career designing real-time control systems for power grid infrastructure.',
+    bio: 'Scaled an industrial IoT engineering team from 8 to 80 through acquisition. Early career in power grid control systems.',
   },
   {
     name: 'Priya Nair',
     title: 'VP of Industrial Partnerships',
-    bio: 'Drove strategic partnerships at a leading SCADA and PLC manufacturer for over a decade. Deep relationships across the automation ecosystem, from sensor OEMs to system integrators managing multi-site industrial rollouts.',
+    bio: 'A decade in strategic partnerships at a leading SCADA and PLC manufacturer. Deep roots across the industrial automation ecosystem.',
   },
 ];
 
@@ -120,10 +119,10 @@ export default function About() {
         <div className="container-base max-w-3xl">
           <h2 className="font-display text-3xl md:text-4xl font-semibold leading-tight mb-6">The edge inference platform for industrial operations that cannot afford a round trip to the cloud.</h2>
           <p className="text-muted leading-relaxed text-lg mb-4">
-            Device-Nova was built to solve a problem that every industrial IoT team eventually hits: cloud-dependent inference architectures work well in demos and fail under production conditions. Latency is too high. Connectivity is too unreliable. The bandwidth cost of streaming raw sensor data to a remote data center scales linearly with your device count — not with the value of the decisions being made.
+            Device-Nova was built to solve a problem every industrial IoT team eventually hits: cloud-dependent systems work well in demos and fail under production conditions. Latency spikes. Connectivity drops. Bandwidth costs scale with device count — not with the value of decisions being made.
           </p>
           <p className="text-muted leading-relaxed text-lg">
-            Our platform runs AI inference directly on edge hardware — from ARM Cortex-M microcontrollers to NVIDIA Jetson modules — so that a sensor reading becomes an actionable decision within the same control cycle, on the same device, without ever leaving the plant floor. Cloud sync becomes a strategic capability for aggregated analytics and model retraining, not a requirement for real-time operation.
+            Our platform runs on-device inference directly on edge hardware, so a sensor reading becomes an actionable decision within the same control cycle — on the same device, without leaving the plant floor. Cloud sync becomes a strategic tool for analytics and model updates, not a requirement for real-time operation.
           </p>
         </div>
       </section>
@@ -227,7 +226,6 @@ export default function About() {
               <motion.div key={name} variants={itemVariants} className="h-full">
                 <Card className="h-full">
                   <div className="flex items-start gap-5">
-                    {/* TODO-ASSET: replace placeholder avatar with real team headshots */}
                     <div className="flex-shrink-0 h-14 w-14 rounded-full bg-cyan/10 border border-cyan/25 flex items-center justify-center overflow-hidden">
                       <span className="font-display text-lg font-semibold text-cyan">
                         {name.split(' ').map(n => n[0]).join('')}

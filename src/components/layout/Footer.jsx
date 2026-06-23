@@ -41,6 +41,10 @@ export default function Footer() {
             <p className="mt-4 text-sm text-muted leading-relaxed max-w-xs">
               Edge AI device intelligence for industrial operations. Real-time inference, on the device, at the source.
             </p>
+            <p className="mt-4 text-sm text-muted leading-relaxed max-w-xs">
+              548 Market St, San Francisco, CA 94104, USA<br />
+              +1 (415) 628-7412
+            </p>
             <div className="flex items-center gap-3 mt-6">
               <a
                 href="https://facebook.com"

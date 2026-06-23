@@ -102,25 +102,7 @@ export default function Product() {
           </motion.div>
         </motion.div>
 
-        <motion.div
-          className="mt-10 rounded-2xl border border-border/50 bg-surface/20 backdrop-blur-sm p-6 md:p-8"
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-        >
-          <div className="flex items-start gap-4">
-            <div className="mt-1 h-10 w-10 rounded-xl bg-cyan/10 border border-cyan/25 flex items-center justify-center" aria-hidden="true">
-              <span className="text-cyan">✦</span>
-            </div>
-            <div>
-              <h3 className="font-display text-xl font-semibold text-primary">Framer Motion, fully wired</h3>
-              <p className="text-muted leading-relaxed mt-2">
-                This page uses scroll-triggered animations (motion + viewport) and a subtle animated ambient background to keep the experience lively—while staying consistent with the rest of the routed pages.
-              </p>
-            </div>
-          </div>
-        </motion.div>
+
       </section>
     </div>
   );

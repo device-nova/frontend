@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useForm, ValidationError } from '@formspree/react';
 import PageHeader from '../components/ui/PageHeader.jsx';
 import Input from '../components/ui/Input.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -15,13 +15,7 @@ const EVALUATION_OPTIONS = [
 ];
 
 export default function Contact() {
-  const [submitted, setSubmitted] = useState(false);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    // TODO-ASSET: wire this up to the real lead-capture endpoint / CRM.
-    setSubmitted(true);
-  }
+  const [state, handleSubmit] = useForm('xaqgnwrd');
 
   return (
     <>
@@ -31,7 +25,7 @@ export default function Contact() {
         description="Tell us about your environment — device count, protocols in use, and what you're trying to solve — and we'll route you to the right engineer."
       />
 
-      {submitted ? (
+      {state.succeeded ? (
         <section className="container-base pb-32 max-w-xl">
           <div className="bg-surface border border-border rounded-2xl p-10 text-center">
             <CheckCircle2 size={40} className="text-success mx-auto mb-4" aria-hidden="true" />
@@ -46,11 +40,12 @@ export default function Contact() {
             <div className="lg:col-span-3">
               <form onSubmit={handleSubmit} className="bg-surface border border-border rounded-2xl p-8 space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
-                  <Input id="firstName" label="First name" required autoComplete="given-name" />
-                  <Input id="lastName" label="Last name" required autoComplete="family-name" />
+                  <Input id="firstName" name="firstName" label="First name" required autoComplete="given-name" />
+                  <Input id="lastName" name="lastName" label="Last name" required autoComplete="family-name" />
                 </div>
-                <Input id="email" type="email" label="Work email" required autoComplete="email" />
-                <Input id="company" label="Company" required autoComplete="organization" />
+                <Input id="email" name="email" type="email" label="Work email" required autoComplete="email" />
+                <ValidationError prefix="Email" field="email" errors={state.errors} />
+                <Input id="company" name="company" label="Company" required autoComplete="organization" />
 
                 {/* Dropdown */}
                 <div className="flex flex-col gap-2">
@@ -59,6 +54,7 @@ export default function Contact() {
                   </label>
                   <select
                     id="evaluation"
+                    name="evaluation"
                     className="h-11 bg-surface-raised border border-border rounded-md px-4 text-primary outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-cyan focus:border-cyan appearance-none cursor-pointer"
                     style={{
                       backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237e8ca0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
@@ -80,6 +76,7 @@ export default function Contact() {
                   </label>
                   <textarea
                     id="message"
+                    name="message"
                     rows={5}
                     required
                     className="bg-surface-raised border border-border rounded-md px-4 py-3 text-primary outline-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-cyan focus:border-cyan resize-none"
@@ -87,8 +84,8 @@ export default function Contact() {
                   />
                 </div>
 
-                <Button type="submit" variant="primary" size="lg" className="w-full">
-                  Send Message
+                <Button type="submit" variant="primary" size="lg" className="w-full" disabled={state.submitting}>
+                  {state.submitting ? 'Sending...' : 'Send Message'}
                 </Button>
               </form>
             </div>
@@ -97,7 +94,6 @@ export default function Contact() {
             <div className="lg:col-span-2 space-y-6">
               <Card interactive={false}>
                 <div className="space-y-6">
-                  {/* TODO-CONTENT: placeholder address — replace with real office location */}
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0 h-10 w-10 rounded-xl bg-cyan/10 border border-cyan/25 flex items-center justify-center">
                       <Building2 size={18} className="text-cyan" aria-hidden="true" />
@@ -105,8 +101,8 @@ export default function Contact() {
                     <div>
                       <h3 className="font-display text-sm font-semibold text-primary mb-1">Office</h3>
                       <p className="text-sm text-muted leading-relaxed">
-                        388 Market Street, Suite 1200<br />
-                        San Francisco, CA 94111
+                        548 Market St, San Francisco, CA 94104, USA<br />
+                        +1 (415) 628-7412
                       </p>
                     </div>
                   </div>
@@ -183,11 +179,10 @@ export default function Contact() {
                 </div>
               </Card>
 
-              {/* TODO-CONTENT: placeholder map — replace with real office coordinates */}
               <div className="rounded-2xl overflow-hidden border border-border">
                 <iframe
                   title="Device-Nova office location"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0193430745957!2d-122.39843868468147!3d37.79117047975678!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858062c6b45b5f%3A0x82a5d3edd6d95a0b!2s388%20Market%20St%2C%20San%20Francisco%2C%20CA%2094111!5e0!3m2!1sen!2sus!4v1"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0193430745957!2d-122.39843868468147!3d37.79117047975678!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858062c6b45b5f%3A0x82a5d3edd6d95a0b!2s548%20Market%20St%2C%20San%20Francisco%2C%20CA%2094104!5e0!3m2!1sen!2sus!4v1"
                   width="100%"
                   height="220"
                   style={{ border: 0, filter: 'invert(0.9) hue-rotate(180deg) saturate(0.5)' }}

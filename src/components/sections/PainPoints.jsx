@@ -8,25 +8,25 @@ const PAINS = [
     icon: Timer,
     title: 'Round-Trip Latency',
     body:
-      'Every decision routed through the cloud adds 80–400 ms of overhead. In a fast-moving assembly line or safety-critical process, that window is the difference between a caught fault and unplanned downtime.',
+      'Every cloud-routed decision adds 80 to 400 ms of overhead — enough to miss a fault on a fast-moving line.',
   },
   {
     icon: WifiOff,
     title: 'Connectivity Dependency',
     body:
-      'Remote sites — mines, offshore rigs, cellular-dead factory floors — operate with intermittent or metered uplink. Cloud-dependent inference stops working the moment the link drops.',
+      'Mines, offshore rigs, and remote factory floors run on intermittent uplinks. When the connection drops, cloud-dependent systems stop working entirely.',
   },
   {
     icon: HardDrive,
     title: 'Unconstrained Bandwidth Cost',
     body:
-      'Streaming raw sensor telemetry at scale generates terabytes per day. The ingestion and storage bill grows proportionally with your device estate, whether or not the cloud made a useful decision.',
+      'Raw telemetry at scale generates terabytes per day. Ingestion costs grow with your device count, regardless of whether useful decisions are made.',
   },
   {
     icon: BrainCircuit,
     title: 'No Device-Level Intelligence',
     body:
-      'Traditional SCADA and PLC systems are deterministic rule-engines — they execute what they were programmed to do. They cannot learn from operational patterns, detect novel anomalies, or adapt to changing conditions without manual re-engineering.',
+      'Traditional SCADA and PLC systems only execute what they were programmed to do. They cannot detect novel anomalies or adapt without manual re-engineering.',
   },
 ];
 
