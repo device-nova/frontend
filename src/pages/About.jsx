@@ -1,17 +1,27 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Cpu, Target, Globe, Shield, Hexagon, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import PageHeader from '../components/ui/PageHeader.jsx';
 import SectionHeader from '../components/ui/SectionHeader.jsx';
 import Card from '../components/ui/Card.jsx';
 import Button from '../components/ui/Button.jsx';
 
-
+import heroBg from '../assets/images/about/hero-bg.png';
 
 import iconLatency from '../assets/images/pain-points/latency.png';
 import iconConnectivity from '../assets/images/pain-points/connectivity.png';
 import iconBandwidth from '../assets/images/pain-points/bandwidth.png';
 import iconDeviceIntelligence from '../assets/images/pain-points/device-intelligence.png';
+
+import iconBuiltForEdge from '../assets/images/principles/built-for-edge.png';
+import iconOperationalReliability from '../assets/images/principles/operational-reliability.png';
+import iconVendorNeutral from '../assets/images/principles/vendor-neutral.png';
+import iconDataSovereignty from '../assets/images/principles/data-sovereignty.png';
+
+import imgAlexVoss from '../assets/images/team/alex-voss.png';
+import imgMayaChen from '../assets/images/team/maya-chen.png';
+import imgDavidOkonkwo from '../assets/images/team/david-okonkwo.png';
+import imgSarahVitz from '../assets/images/team/sarah-vitz.png';
 
 const MISMATCHES = [
   {
@@ -49,42 +59,46 @@ const LEADERSHIP = [
     name: 'Alex Voss',
     title: 'COO',
     bio: 'Fortune 500 embedded systems leader with 50,000-plus field device deployments across oil and gas, manufacturing, and utilities.',
+    image: imgAlexVoss,
   },
   {
     name: 'Maya Chen',
     title: 'CTO',
     bio: 'Former cloud infrastructure engineer turned edge-native builder. Research background in on-device model compression.',
+    image: imgMayaChen,
   },
   {
     name: 'David Okonkwo',
     title: 'VP of Engineering',
     bio: 'Scaled an industrial IoT engineering team from 8 to 80 through acquisition. Early career in power grid control systems.',
+    image: imgDavidOkonkwo,
   },
   {
-    name: 'Priya Nair',
+    name: 'Sarah Vitz',
     title: 'VP of Industrial Partnerships',
     bio: 'A decade in strategic partnerships at a leading SCADA and PLC manufacturer. Deep roots across the industrial automation ecosystem.',
+    image: imgSarahVitz,
   },
 ];
 
 const PRINCIPLES = [
   {
-    icon: Cpu,
+    icon: iconBuiltForEdge,
     title: 'Built for the edge, not adapted to it',
     description: 'Device-Nova was architected from the first line of code to run inference on constrained industrial hardware — not a cloud platform retrofitted with an edge agent.',
   },
   {
-    icon: Target,
+    icon: iconOperationalReliability,
     title: 'Operational reliability over feature breadth',
     description: 'Every release is validated against real plant-floor conditions: intermittent connectivity, legacy protocols, and hardware that has to run for a decade without a reboot.',
   },
   {
-    icon: Globe,
+    icon: iconVendorNeutral,
     title: 'Vendor-neutral by design',
     description: 'We integrate with the sensors, PLCs, and SCADA systems already on your floor. No forced hardware refresh, no proprietary lock-in.',
   },
   {
-    icon: Shield,
+    icon: iconDataSovereignty,
     title: 'Data sovereignty first',
     description: 'Your operational telemetry stays on your infrastructure. Cloud sync is opt-in and configurable — never an implicit requirement of the platform.',
   },
@@ -117,6 +131,7 @@ export default function About() {
         eyebrow="About Device-Nova"
         title="Industrial intelligence, deployed where decisions happen"
         description="We build the inference layer that lets industrial equipment act on data in milliseconds, not minutes — without depending on a round trip to the cloud."
+        bgImage={heroBg}
       />
 
       {/* Mission / Intro */}
@@ -228,14 +243,18 @@ export default function About() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
           >
-            {LEADERSHIP.map(({ name, title: role, bio }) => (
+            {LEADERSHIP.map(({ name, title: role, bio, image }) => (
               <motion.div key={name} variants={itemVariants} className="h-full">
                 <Card className="h-full">
                   <div className="flex items-start gap-5">
                     <div className="flex-shrink-0 h-14 w-14 rounded-full bg-cyan/10 border border-cyan/25 flex items-center justify-center overflow-hidden">
-                      <span className="font-display text-lg font-semibold text-cyan">
-                        {name.split(' ').map(n => n[0]).join('')}
-                      </span>
+                      {image ? (
+                        <img src={image} alt={name} className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="font-display text-lg font-semibold text-cyan">
+                          {name.split(' ').map(n => n[0]).join('')}
+                        </span>
+                      )}
                     </div>
                     <div className="min-w-0">
                       <h3 className="font-display text-lg font-semibold text-primary">{name}</h3>
@@ -266,12 +285,12 @@ export default function About() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
           >
-            {PRINCIPLES.map(({ icon: Icon, title, description }) => (
+            {PRINCIPLES.map(({ icon, title, description }) => (
               <motion.div key={title} variants={itemVariants} className="group">
                 <Card className="h-full">
                   <div className="flex items-start gap-5">
                     <div className="flex-shrink-0 h-12 w-12 rounded-xl flex items-center justify-center bg-cyan/10 border border-cyan/25 shadow-glow-cyan transition-all duration-300 group-hover:bg-cyan/15 group-hover:shadow-glow-cyan">
-                      <Icon size={22} className="text-cyan" aria-hidden="true" />
+                      <img src={icon} alt="" aria-hidden="true" className="h-8 w-8 object-contain" />
                     </div>
                     <div>
                       <h3 className="font-display text-lg font-semibold text-primary mb-2">{title}</h3>
@@ -289,8 +308,8 @@ export default function About() {
       <section className="bg-void section-pad border-t border-border">
         <div className="container-base text-center">
           <div className="max-w-xl mx-auto">
-            <div className="h-14 w-14 rounded-2xl bg-cyan/10 border border-cyan/25 flex items-center justify-center mx-auto mb-6">
-              <Hexagon size={24} className="text-cyan" aria-hidden="true" />
+            <div className="h-16 w-16 rounded-2xl bg-cyan/10 border border-cyan/25 flex items-center justify-center mx-auto mb-6">
+              <img src="/favicon.png" alt="Device-Nova" className="h-10 w-10 object-contain" />
             </div>
             <h2 className="font-display text-3xl md:text-4xl font-semibold mb-4">
               Talk to our engineering team

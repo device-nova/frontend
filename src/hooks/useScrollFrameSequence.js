@@ -4,16 +4,15 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// TODO-ASSET: replace this placeholder frame array with a real exported
-// frame sequence (e.g. ffmpeg -i source.mp4 -vf fps=24 frame_%03d.jpg),
-// hosted at a stable CDN path. When swapping, just update FRAME_COUNT
-// to match the real sequence length — everything else (preload, scrub
-// math, canvas draw) works unchanged.
-export const FRAME_COUNT = 24;
+const frameModules = import.meta.glob('/src/assets/images/hero/frames/*.png', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+});
 
-export function buildFrameUrls(count = FRAME_COUNT) {
-  return Array.from({ length: count }, (_, i) => `https://picsum.photos/1920/1080?random=${i + 1}`);
-}
+const framePaths = Object.keys(frameModules).sort();
+export const FRAME_COUNT = framePaths.length;
+export const FRAME_URLS = framePaths.map((p) => frameModules[p]);
 
 /**
  * Drives a <canvas> frame-by-frame from scroll position within a pinned

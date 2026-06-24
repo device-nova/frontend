@@ -9,7 +9,7 @@ export default function RadarSweep({ active = true, size = 160, centerImage }) {
         aria-hidden="true"
       >
         {centerImage ? (
-          <img src={centerImage} alt="" className="h-12 w-12 object-contain rounded-full" />
+          <img src={centerImage} alt="" className="h-16 w-16 object-contain rounded-full" />
         ) : (
           <div className="h-2 w-2 rounded-full bg-cyan" />
         )}
@@ -49,7 +49,7 @@ export default function RadarSweep({ active = true, size = 160, centerImage }) {
           <img
             src={centerImage}
             alt=""
-            className="h-14 w-14 object-contain rounded-full"
+            className="h-20 w-20 object-contain rounded-full"
           />
         </motion.div>
       ) : (

@@ -3,9 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import Button from '../ui/Button.jsx';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion.js';
-import { useScrollFrameSequence, buildFrameUrls } from '../../hooks/useScrollFrameSequence.js';
-
-const FRAME_URLS = buildFrameUrls();
+import { useScrollFrameSequence, FRAME_URLS, FRAME_COUNT } from '../../hooks/useScrollFrameSequence.js';
 
 const heroContainerVariants = {
   hidden: {},
@@ -49,7 +47,7 @@ export default function Hero() {
       variants={heroContainerVariants}
       initial="hidden"
       animate="visible"
-      className="relative z-10 flex flex-col items-start justify-center h-full container-base"
+      className="relative z-10 flex flex-col items-start justify-center h-full container-base pt-20 md:pt-24"
       style={
         reducedMotion
           ? undefined
@@ -61,7 +59,7 @@ export default function Hero() {
     >
       <motion.h1
         variants={heroItemVariants}
-        className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold leading-[0.95] tracking-tight max-w-4xl text-primary"
+        className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[0.95] tracking-tight max-w-5xl text-primary"
       >
         The Edge Intelligence Platform for Industrial IoT
       </motion.h1>
@@ -118,7 +116,7 @@ export default function Hero() {
   }
 
   return (
-    <div ref={stageRef} className="hero-scroll-stage relative" style={{ height: '250vh' }}>
+    <div ref={stageRef} className="hero-scroll-stage relative" style={{ height: `${100 + FRAME_COUNT * 3}vh` }}>
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {/* Frame sequence canvas */}
         <canvas
