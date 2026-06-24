@@ -54,6 +54,14 @@ export default function Navbar() {
       }`}
       style={scrolled ? undefined : { filter: 'drop-shadow(0 1px 8px rgba(0,0,0,0.6))' }}
     >
+      {/* Top-edge glow accent on scroll */}
+      {scrolled && (
+        <div
+          className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan/40 to-transparent"
+          aria-hidden="true"
+        />
+      )}
+
       <nav
         aria-label="Main navigation"
         className="container-base flex items-center justify-between h-20"
@@ -124,7 +132,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="lg:hidden overflow-hidden border-t border-border bg-void"
+            className="lg:hidden overflow-hidden border-t border-border bg-void/95 backdrop-blur-xl"
           >
             <ul className="container-base flex flex-col gap-1 py-6 font-mono text-sm tracking-widest2 uppercase">
               {SECTION_LINKS.map((link) => (
@@ -132,8 +140,10 @@ export default function Navbar() {
                   <a
                     href={`/#${link.id}`}
                     onClick={(e) => handleSectionClick(e, link.id)}
-                    className={`block py-3.5 transition-colors duration-300 ${
-                      activeId === link.id ? 'text-cyan' : 'text-muted'
+                    className={`block py-3.5 transition-all duration-300 rounded-lg px-3 -mx-3 ${
+                      activeId === link.id
+                        ? 'text-cyan bg-cyan/5'
+                        : 'text-muted hover:text-primary hover:bg-surface-raised/50'
                     }`}
                   >
                     {link.label}

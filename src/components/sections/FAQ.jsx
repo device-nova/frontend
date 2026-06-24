@@ -46,7 +46,8 @@ const FAQ_ITEMS = [
 
 export default function FAQ() {
   return (
-    <section id="faq" className="bg-void section-pad">
+    <section id="faq" className="bg-void section-pad relative overflow-hidden">
+      <div className="ambient-grid" aria-hidden="true" />
       <div className="container-base">
         <SectionHeader
           eyebrow="FAQ"

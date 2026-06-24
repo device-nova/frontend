@@ -57,20 +57,41 @@ export default function Hero() {
             }
       }
     >
+      {/* Animated glow orbs behind text */}
+      <div
+        className="absolute -top-20 -left-10 w-[40rem] h-40 pointer-events-none opacity-60"
+        aria-hidden="true"
+        style={{
+          background: 'radial-gradient(ellipse 80% 100% at 20% 50%, rgba(255,138,0,0.10) 0%, transparent 70%)',
+        }}
+      />
+      <div
+        className="absolute -bottom-16 right-0 w-72 h-36 pointer-events-none opacity-40"
+        aria-hidden="true"
+        style={{
+          background: 'radial-gradient(ellipse 60% 100% at 50% 50%, rgba(204,110,0,0.08) 0%, transparent 70%)',
+        }}
+      />
+
       <motion.h1
         variants={heroItemVariants}
-        className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[0.95] tracking-tight max-w-5xl text-primary"
+        className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[0.95] tracking-tight max-w-5xl"
       >
-        The Edge Intelligence Platform for Industrial IoT
+        <span className="text-primary">The </span>
+        <span className="bg-gradient-to-r from-amber to-amber-deep bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(255,138,0,0.3)]">Edge Intelligence</span>
+        <span className="text-primary"> Platform for </span>
+        <span className="bg-gradient-to-r from-amber via-amber-deep to-amber bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(255,138,0,0.3)]">Industrial IoT</span>
       </motion.h1>
 
       <motion.p
         variants={heroItemVariants}
         className="mt-8 text-lg md:text-xl text-muted leading-relaxed max-w-2xl"
       >
-        Real-time device monitoring, local edge processing, and autonomous industrial
+        <span className="text-primary/90">Real-time device monitoring, local edge processing, and autonomous industrial
         decision-making running directly on your sensors, PLCs, and gateways, with
-        near-zero latency and no dependency on a cloud round trip.
+        near-zero latency and </span>
+        <span className="text-amber font-medium">no dependency on a cloud round trip</span>
+        <span className="text-primary/90">.</span>
       </motion.p>
 
       <motion.div variants={heroItemVariants} className="flex flex-wrap items-center gap-4 mt-10">
@@ -82,6 +103,17 @@ export default function Hero() {
           Get in Touch
           <ChevronRight size={18} aria-hidden="true" />
         </Button>
+      </motion.div>
+
+      {/* Decorative bottom accent */}
+      <motion.div
+        variants={heroItemVariants}
+        className="flex items-center gap-2 mt-16"
+        aria-hidden="true"
+      >
+        <span className="h-px w-8 bg-gradient-to-r from-transparent to-amber/50" />
+        <span className="h-1.5 w-1.5 rounded-full bg-amber/60" />
+        <span className="h-px w-8 bg-gradient-to-r from-amber/50 to-transparent" />
       </motion.div>
     </motion.div>
   );

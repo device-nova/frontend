@@ -89,7 +89,8 @@ export default function Pricing() {
   const [annual, setAnnual] = useState(false);
 
   return (
-    <section id="pricing" className="bg-surface section-pad">
+    <section id="pricing" className="bg-surface section-pad relative overflow-hidden">
+      <div className="ambient-orb ambient-orb--cyan" aria-hidden="true" />
       <div className="container-base">
         <div className="mb-14 text-center max-w-2xl mx-auto">
           <Badge tone="cyan" className="mb-5">

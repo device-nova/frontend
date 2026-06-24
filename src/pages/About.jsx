@@ -135,7 +135,8 @@ export default function About() {
       />
 
       {/* Mission / Intro */}
-      <section className="bg-surface section-pad border-t border-border">
+      <section className="bg-surface section-pad border-t border-border relative overflow-hidden">
+        <div className="ambient-orb ambient-orb--cyan" aria-hidden="true" />
         <div className="container-base max-w-3xl">
           <h2 className="font-display text-3xl md:text-4xl font-semibold leading-tight mb-6">The edge inference platform for industrial operations that cannot afford a round trip to the cloud.</h2>
           <p className="text-muted leading-relaxed text-lg mb-4">
@@ -148,7 +149,9 @@ export default function About() {
       </section>
 
       {/* Why we exist — problem cards (reusing PainPoints pattern) */}
-      <section className="bg-void section-pad border-t border-border">
+      <section className="bg-void section-pad border-t border-border relative overflow-hidden">
+        <div className="ambient-orb ambient-orb--amber" aria-hidden="true" />
+        <div className="ambient-grid" aria-hidden="true" />
         <div className="container-base">
           <SectionHeader
             eyebrow="The Problem We Solve"
@@ -172,7 +175,7 @@ export default function About() {
                     src={icon}
                     alt=""
                     aria-hidden="true"
-                    className="absolute -bottom-4 -right-4 w-40 h-40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none object-contain"
+                    className="absolute -bottom-2 -right-2 w-36 h-36 opacity-0 group-hover:opacity-[0.06] scale-110 group-hover:scale-100 transition-all duration-500 pointer-events-none object-contain"
                   />
                   <div className="flex items-start gap-5 relative z-10">
                     <div className="flex-shrink-0 h-16 w-16 rounded-xl flex items-center justify-center bg-amber/10 border border-amber/20 shadow-glow-amber">

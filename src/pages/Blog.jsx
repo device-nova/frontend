@@ -42,7 +42,7 @@ export default function Blog() {
             <motion.div key={post.slug} variants={itemVariants} className="h-full">
               <Link
                 to={`/blog/${post.slug}`}
-                className="group block h-full bg-surface border border-border rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-hover hover:shadow-glow-cyan focus-visible:ring-2 focus-visible:ring-cyan rounded-2xl"
+                className="group block h-full bg-surface border border-border rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-hover hover:shadow-glow-cyan focus-visible:ring-2 focus-visible:ring-cyan"
               >
                 {/* TODO-ASSET: replace with real article cover images */}
                 <div className="h-44 bg-gradient-to-br from-void via-surface-raised to-void flex items-center justify-center border-b border-border/40">

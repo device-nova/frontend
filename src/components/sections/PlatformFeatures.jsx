@@ -59,7 +59,8 @@ const cardVariants = {
 
 export default function PlatformFeatures() {
   return (
-    <section id="platform" className="bg-surface section-pad">
+    <section id="platform" className="bg-surface section-pad relative overflow-hidden">
+      <div className="ambient-orb ambient-orb--cyan" aria-hidden="true" />
       <div className="container-base">
         <SectionHeader
           eyebrow="Platform Features"

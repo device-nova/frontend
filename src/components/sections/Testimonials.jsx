@@ -53,7 +53,8 @@ const cardVariants = {
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="bg-void section-pad">
+    <section id="testimonials" className="bg-void section-pad relative overflow-hidden">
+      <div className="ambient-orb ambient-orb--cyan" aria-hidden="true" />
       <div className="container-base">
         <SectionHeader
           eyebrow="Customer Perspectives"

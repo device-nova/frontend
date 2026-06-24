@@ -111,7 +111,7 @@ export default function Architecture() {
             return (
               <div key={layer.id} className="flex flex-col lg:flex-row items-stretch flex-1 min-w-0">
                 <motion.div
-                  className={`flex-1 rounded-2xl border ${c.border} bg-void p-4 lg:p-5 flex flex-col gap-3`}
+                  className={`flex-1 rounded-2xl border ${c.border} bg-gradient-to-b from-void via-void to-void/60 p-4 lg:p-5 flex flex-col gap-3 transition-all duration-300 hover:border-hover hover:shadow-glow-cyan`}
                   initial={{ opacity: 0, y: 24 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.1 * i, duration: 0.55, ease: 'easeOut' }}

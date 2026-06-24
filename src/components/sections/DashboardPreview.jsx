@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { useRef, useEffect } from 'react';
+import { motion, useInView, useReducedMotion, useMotionValue, animate } from 'framer-motion';
 import { Activity, Wifi, WifiOff, BrainCircuit, Bell, Zap } from 'lucide-react';
 import SectionHeader from '../ui/SectionHeader.jsx';
 import Badge from '../ui/Badge.jsx';
@@ -65,14 +65,15 @@ function buildPulseData() {
   EDGE_CONNECTIONS.forEach(([a, b], i) => {
     pulses.push({
       key: `edge-pulse-${i}`,
-      path: `M ${a.x} ${a.y} L ${b.x} ${b.y}`,
+      x1: a.x, y1: a.y, x2: b.x, y2: b.y,
       speed: 0.9 + Math.random() * 0.3,
       delay: i * 0.25,
     });
   });
   pulses.push({
     key: 'cloud-pulse',
-    path: `M ${ORCHESTRATOR.x} ${ORCHESTRATOR.y} L ${CLOUD_SYNC.x} ${CLOUD_SYNC.y}`,
+    x1: ORCHESTRATOR.x, y1: ORCHESTRATOR.y,
+    x2: CLOUD_SYNC.x, y2: CLOUD_SYNC.y,
     speed: 3.2,
     delay: 1.0,
   });
@@ -80,31 +81,61 @@ function buildPulseData() {
 }
 const PULSES = buildPulseData();
 
-function DataPulse({ pulse, reduceMotion, color = 'var(--accent-cyan)', size = 5 }) {
+/* ─────────────────────────────────────────────────────────
+   Data pulse with explicit position interpolation.
+   Replaces CSS offset-path (unsupported in Firefox/Safari)
+   with a framer-motion cx/cy animation that moves a circle
+   between two nodes along a straight line.
+───────────────────────────────────────────────────────── */
+function PulseDot({ x1, y1, x2, y2, duration, delay, size, glowSize, color, reduceMotion }) {
   if (reduceMotion) {
-    return <circle r={size} fill={color} fillOpacity="0.8" style={{ offsetPath: `path('${pulse.path}')`, offsetDistance: '50%' }} />;
+    const midX = (x1 + x2) / 2;
+    const midY = (y1 + y2) / 2;
+    return <circle r={size} fill={color} fillOpacity="0.6" cx={midX} cy={midY} />;
   }
+
+  const x = useMotionValue(x1);
+  const y = useMotionValue(y1);
+
+  useEffect(() => {
+    const controlsX = animate(x, [x1, x2], {
+      duration,
+      repeat: Infinity,
+      ease: 'linear',
+      delay,
+    });
+    const controlsY = animate(y, [y1, y2], {
+      duration,
+      repeat: Infinity,
+      ease: 'linear',
+      delay,
+    });
+    return () => {
+      controlsX.stop();
+      controlsY.stop();
+    };
+  }, [x, y, x1, y1, x2, y2, duration, delay]);
+
   return (
-    <g>
-      {/* Soft glow trail behind the core dot, makes motion read clearly even in a still frame */}
-      <motion.circle
-        r={size * 2.6}
-        fill={color}
-        fillOpacity="0.18"
-        initial={{ offsetDistance: '0%' }}
-        animate={{ offsetDistance: '100%' }}
-        transition={{ duration: pulse.speed, repeat: Infinity, ease: 'linear', delay: pulse.delay }}
-        style={{ offsetPath: `path('${pulse.path}')` }}
-      />
-      <motion.circle
-        r={size}
-        fill={color}
-        initial={{ offsetDistance: '0%' }}
-        animate={{ offsetDistance: '100%' }}
-        transition={{ duration: pulse.speed, repeat: Infinity, ease: 'linear', delay: pulse.delay }}
-        style={{ offsetPath: `path('${pulse.path}')` }}
-      />
-    </g>
+    <>
+      <motion.circle r={glowSize} fill={color} fillOpacity="0.18" cx={x} cy={y} />
+      <motion.circle r={size} fill={color} cx={x} cy={y} />
+    </>
+  );
+}
+
+function DataPulse({ pulse, reduceMotion, color = 'var(--accent-cyan)', size = 5 }) {
+  return (
+    <PulseDot
+      x1={pulse.x1} y1={pulse.y1}
+      x2={pulse.x2} y2={pulse.y2}
+      duration={pulse.speed}
+      delay={pulse.delay}
+      size={size}
+      glowSize={size * 2.6}
+      color={color}
+      reduceMotion={reduceMotion}
+    />
   );
 }
 
@@ -325,7 +356,9 @@ export default function DashboardPreview() {
   const inView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section id="dashboard" className="bg-void section-pad" ref={ref}>
+    <section id="dashboard" className="bg-void section-pad relative overflow-hidden" ref={ref}>
+      <div className="ambient-orb ambient-orb--cyan" aria-hidden="true" />
+      <div className="ambient-grid" aria-hidden="true" />
       <div className="container-base">
         <SectionHeader
           eyebrow="Dashboard Preview"

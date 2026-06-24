@@ -52,7 +52,8 @@ const itemVariants = {
 
 export default function IndustriesServed() {
   return (
-    <section id="solutions" className="bg-void section-pad">
+    <section id="solutions" className="bg-void section-pad relative overflow-hidden">
+      <div className="ambient-orb ambient-orb--cyan" aria-hidden="true" />
       <div className="container-base">
         <SectionHeader
           eyebrow="Industries Served"

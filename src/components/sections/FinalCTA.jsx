@@ -6,7 +6,9 @@ import Badge from '../ui/Badge.jsx';
 export default function FinalCTA() {
   return (
     <section id="final-cta" className="bg-surface section-pad relative overflow-hidden">
-      {/* Background glow orb */}
+      <div className="ambient-orb ambient-orb--cyan" aria-hidden="true" />
+
+      {/* Animated gradient orb */}
       <div
         className="absolute inset-0 pointer-events-none"
         aria-hidden="true"
@@ -18,7 +20,7 @@ export default function FinalCTA() {
 
       {/* Subtle grid overlay */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        className="absolute inset-0 pointer-events-none opacity-[0.025]"
         aria-hidden="true"
         style={{
           backgroundImage:

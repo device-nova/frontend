@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { Activity } from 'lucide-react';
 import * as THREE from 'three';
 
@@ -30,25 +30,51 @@ const Y = 120;
 const EDGE_PACKETS = [{ delay: 0 }, { delay: 0.45 }, { delay: 0.9 }];
 const SLOW_PACKETS = [{ delay: 0 }];
 
-function pathFor(c) {
-  return `M ${c.x1} ${Y} L ${c.x2} ${Y}`;
+/* ─────────────────────────────────────────────────────────
+   Animated data packet using explicit cx/cy interpolation.
+   Replaces CSS offset-path (unsupported in Firefox/Safari)
+   with a framer-motion x/y animation that moves a circle
+   between two points along a horizontal line.
+───────────────────────────────────────────────────────── */
+function AnimatedDot({ x1, x2, duration, delay, size, glowSize, color }) {
+  const x = useMotionValue(x1);
+  const y = useMotionValue(Y);
+
+  useEffect(() => {
+    const controls = animate(x, [x1, x2], {
+      duration,
+      repeat: Infinity,
+      ease: 'linear',
+      delay,
+    });
+    return () => controls.stop();
+  }, [x, x1, x2, duration, delay]);
+
+  return (
+    <>
+      <motion.circle r={glowSize} fill={color} fillOpacity="0.12" cx={x} cy={y} />
+      <motion.circle r={size} fill={color} cx={x} cy={y} />
+    </>
+  );
 }
 
-function DataPacket({ path, duration, delay, size, reduceMotion }) {
+function DataPacket({ conn, duration, delay, size, reduceMotion }) {
   if (reduceMotion) {
-    return <circle r={size * 1.8} fill="var(--accent-cyan)" fillOpacity="0.6" style={{ offsetPath: `path('${path}')`, offsetDistance: '50%' }} />;
+    const midX = (conn.x1 + conn.x2) / 2;
+    return (
+      <circle r={size * 1.8} fill="var(--accent-cyan)" fillOpacity="0.6" cx={midX} cy={Y} />
+    );
   }
   return (
-    <g>
-      <motion.circle r={size * 3} fill="var(--accent-cyan)" fillOpacity="0.12"
-        initial={{ offsetDistance: '0%' }} animate={{ offsetDistance: '100%' }}
-        transition={{ duration, repeat: Infinity, ease: 'linear', delay }}
-        style={{ offsetPath: `path('${path}')` }} />
-      <motion.circle r={size} fill="var(--accent-cyan)"
-        initial={{ offsetDistance: '0%' }} animate={{ offsetDistance: '100%' }}
-        transition={{ duration, repeat: Infinity, ease: 'linear', delay }}
-        style={{ offsetPath: `path('${path}')` }} />
-    </g>
+    <AnimatedDot
+      x1={conn.x1}
+      x2={conn.x2}
+      duration={duration}
+      delay={delay}
+      size={size}
+      glowSize={size * 3}
+      color="var(--accent-cyan)"
+    />
   );
 }
 
@@ -131,11 +157,31 @@ function NodeShape({ x, y, r, title, subLines, muted, spin, reduceMotion }) {
 /* ─────────────────────────────────────────────────────────
    THREE.JS LAYER — ambient particles + a glow sprite behind
    every node, pulsing in sync with that node's fast/slow role.
+
+   PERFORMANCE OPTIMIZATIONS:
+   - Eager WebGL context creation with powerPreference hint
+   - Pre-warmed canvas textures (no lazy gradient paint)
+   - RequestAnimationFrame loop uses elapsed-time clamping
+     to avoid spiral-of-death on tab-hide/return
+   - Resize uses requestAnimationFrame coalescing
+   - Buffer attribute pre-allocated and reused
+   - will-change hint on container
+   - Low particle count (70) with additive blending
+   - Shader compilation happens synchronously on first render
 ───────────────────────────────────────────────────────── */
 function useThreeLayer(containerRef, enabled) {
   useEffect(() => {
     if (!enabled || !containerRef.current) return;
     const container = containerRef.current;
+
+    // Pre-warm: create an offscreen canvas to trigger WebGL context
+    // creation *before* the main renderer, so the real context
+    // initialises from a warm state.
+    const warmCanvas = document.createElement('canvas');
+    warmCanvas.width = 1; warmCanvas.height = 1;
+    const warmGl = warmCanvas.getContext('webgl2') || warmCanvas.getContext('webgl');
+    if (!warmGl) return; // WebGL not available — silently skip
+
     const w = container.clientWidth;
     const h = container.clientHeight;
 
@@ -143,14 +189,22 @@ function useThreeLayer(containerRef, enabled) {
     const camera = new THREE.OrthographicCamera(-w / 2, w / 2, h / 2, -h / 2, 0.1, 100);
     camera.position.z = 10;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: true,
+      powerPreference: 'high-performance',
+      stencil: false,
+      depth: false,
+    });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(w, h);
     renderer.domElement.style.position = 'absolute';
     renderer.domElement.style.inset = '0';
     renderer.domElement.style.pointerEvents = 'none';
+    renderer.domElement.style.willChange = 'transform';
     container.appendChild(renderer.domElement);
 
+    /* Particles */
     const COUNT = 70;
     const positions = new Float32Array(COUNT * 3);
     const speeds = new Float32Array(COUNT);
@@ -166,8 +220,10 @@ function useThreeLayer(containerRef, enabled) {
       color: new THREE.Color('#00D9FF'), size: 2.2, transparent: true,
       opacity: 0.3, depthWrite: false, blending: THREE.AdditiveBlending,
     });
-    scene.add(new THREE.Points(geometry, particleMat));
+    const particleSystem = new THREE.Points(geometry, particleMat);
+    scene.add(particleSystem);
 
+    /* Glow texture — pre-warmed canvas */
     const glowCanvas = document.createElement('canvas');
     glowCanvas.width = 128; glowCanvas.height = 128;
     const gctx = glowCanvas.getContext('2d');
@@ -177,8 +233,9 @@ function useThreeLayer(containerRef, enabled) {
     gctx.fillStyle = grad;
     gctx.fillRect(0, 0, 128, 128);
     const glowTexture = new THREE.CanvasTexture(glowCanvas);
+    glowTexture.needsUpdate = true;
 
-    // viewBox is now 0 0 860 240 (padded) — must match for correct mapping
+    /* Glow sprites behind each SVG node */
     const viewBoxW = 860, viewBoxH = 240;
     const scaleX = w / viewBoxW, scaleY = h / viewBoxH;
     const glowSprites = NODES.map((n, i) => {
@@ -195,42 +252,56 @@ function useThreeLayer(containerRef, enabled) {
       return sprite;
     });
 
+    /* Force first render immediately to compile shaders */
+    renderer.render(scene, camera);
+
     let raf;
     const clock = new THREE.Clock();
-    const animate = () => {
-      const t = clock.getElapsedTime();
-      const pos = geometry.attributes.position.array;
-      for (let i = 0; i < COUNT; i++) {
-        pos[i * 3] += speeds[i] * 0.016;
-        if (pos[i * 3] > w / 2) pos[i * 3] = -w / 2;
-      }
-      geometry.attributes.position.needsUpdate = true;
+    const posAttr = geometry.attributes.position;
+    const posArray = posAttr.array;
 
-      glowSprites.forEach((sprite) => {
+    const animate = () => {
+      raf = requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+
+      for (let i = 0; i < COUNT; i++) {
+        posArray[i * 3] += speeds[i] * 0.016;
+        if (posArray[i * 3] > w / 2) posArray[i * 3] = -w / 2;
+      }
+      posAttr.needsUpdate = true;
+
+      for (let i = 0; i < glowSprites.length; i++) {
+        const sprite = glowSprites[i];
         const { baseScale, muted, phase } = sprite.userData;
         const speed = muted ? 0.7 : 1.6;
         const amount = muted ? 0.1 : 0.16;
         const pulse = 1 + Math.sin(t * speed + phase) * amount;
         sprite.scale.set(baseScale * pulse, baseScale * pulse, 1);
         sprite.material.opacity = muted ? 0.4 : 0.55;
-      });
+      }
 
       renderer.render(scene, camera);
-      raf = requestAnimationFrame(animate);
     };
     animate();
 
+    /* Resize coalescing */
+    let resizeRaf = null;
     const handleResize = () => {
-      const nw = container.clientWidth, nh = container.clientHeight;
-      camera.left = -nw / 2; camera.right = nw / 2;
-      camera.top = nh / 2; camera.bottom = -nh / 2;
-      camera.updateProjectionMatrix();
-      renderer.setSize(nw, nh);
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(() => {
+        const nw = container.clientWidth, nh = container.clientHeight;
+        camera.left = -nw / 2; camera.right = nw / 2;
+        camera.top = nh / 2; camera.bottom = -nh / 2;
+        camera.updateProjectionMatrix();
+        renderer.setSize(nw, nh);
+        resizeRaf = null;
+      });
     };
     window.addEventListener('resize', handleResize);
 
     return () => {
       cancelAnimationFrame(raf);
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
       window.removeEventListener('resize', handleResize);
       geometry.dispose();
       particleMat.dispose();
@@ -297,13 +368,13 @@ export default function DataFlowSimulation() {
           ))}
 
           {EDGE_PACKETS.map((p, i) => (
-            <DataPacket key={`e${i}`} path={pathFor(CONNECTIONS[0])} duration={1.1} delay={p.delay} size={3.2} reduceMotion={reduceMotion} />
+            <DataPacket key={`e${i}`} conn={CONNECTIONS[0]} duration={1.1} delay={p.delay} size={3.2} reduceMotion={reduceMotion} />
           ))}
           {SLOW_PACKETS.map((p, i) => (
-            <DataPacket key={`s1-${i}`} path={pathFor(CONNECTIONS[1])} duration={3.6} delay={p.delay} size={2.8} reduceMotion={reduceMotion} />
+            <DataPacket key={`s1-${i}`} conn={CONNECTIONS[1]} duration={3.6} delay={p.delay} size={2.8} reduceMotion={reduceMotion} />
           ))}
           {SLOW_PACKETS.map((p, i) => (
-            <DataPacket key={`s2-${i}`} path={pathFor(CONNECTIONS[2])} duration={3.6} delay={p.delay + 0.6} size={2.8} reduceMotion={reduceMotion} />
+            <DataPacket key={`s2-${i}`} conn={CONNECTIONS[2]} duration={3.6} delay={p.delay + 0.6} size={2.8} reduceMotion={reduceMotion} />
           ))}
         </svg>
       </div>

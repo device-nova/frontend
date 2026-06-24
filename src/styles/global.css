@@ -93,6 +93,125 @@
   }
 }
 
+/* ─────────────────────────────────────────────────────────
+   AMBIENT ATMOSPHERE
+   Subtle animated backgrounds that make flat sections feel
+   alive without distracting from content.
+───────────────────────────────────────────────────────── */
+
+/* Slow-drift gradient orb for void/surface backgrounds */
+@keyframes ambientDrift {
+  0%   { transform: translate(0%, 0%) scale(1); }
+  25%  { transform: translate(8%, -6%) scale(1.05); }
+  50%  { transform: translate(4%, 10%) scale(0.95); }
+  75%  { transform: translate(-6%, 4%) scale(1.02); }
+  100% { transform: translate(0%, 0%) scale(1); }
+}
+
+@keyframes ambientDrift2 {
+  0%   { transform: translate(0%, 0%) scale(1); }
+  33%  { transform: translate(-10%, 8%) scale(1.08); }
+  66%  { transform: translate(6%, -10%) scale(0.92); }
+  100% { transform: translate(0%, 0%) scale(1); }
+}
+
+@keyframes ambientPulse {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 0.7; }
+}
+
+/* Subtle shimmer for gradient-primary surfaces */
+@keyframes shimmerSlide {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(300%) skewX(-15deg); }
+}
+
+/* Ambient background utility classes */
+.ambient-orb {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.ambient-orb::before,
+.ambient-orb::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+  filter: blur(80px);
+}
+
+.ambient-orb--cyan::before {
+  width: 50%;
+  height: 50%;
+  top: -10%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(0,217,255,0.07) 0%, transparent 70%);
+  animation: ambientDrift 24s ease-in-out infinite;
+}
+
+.ambient-orb--cyan::after {
+  width: 40%;
+  height: 40%;
+  bottom: -5%;
+  right: -5%;
+  background: radial-gradient(circle, rgba(0,153,204,0.05) 0%, transparent 70%);
+  animation: ambientDrift2 30s ease-in-out infinite;
+}
+
+.ambient-orb--amber::before {
+  width: 45%;
+  height: 45%;
+  top: 5%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(255,138,0,0.06) 0%, transparent 70%);
+  animation: ambientDrift 28s ease-in-out infinite;
+}
+
+.ambient-orb--amber::after {
+  width: 35%;
+  height: 35%;
+  bottom: 10%;
+  left: -5%;
+  background: radial-gradient(circle, rgba(204,110,0,0.04) 0%, transparent 70%);
+  animation: ambientDrift2 32s ease-in-out infinite;
+}
+
+/* Subtle tech grid overlay for void sections */
+.ambient-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.025;
+  background-image:
+    linear-gradient(var(--border-default) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-default) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Glassmorphism elevation refinement */
+.glass-card {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background-color: color-mix(in srgb, var(--bg-surface) 60%, transparent);
+  border: 1px solid var(--border-default);
+}
+
+/* Reduce ambient animations when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ambient-orb::before,
+  .ambient-orb::after {
+    animation: none !important;
+  }
+  .ambient-grid {
+    opacity: 0.04;
+  }
+}
+
 /* Chatwoot custom launcher animations */
 @keyframes chatwootRingRotate {
   from { transform: rotate(0deg); }
