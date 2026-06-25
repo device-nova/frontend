@@ -29,6 +29,35 @@
 
   /* Composite values */
   --gradient-primary: linear-gradient(135deg, var(--accent-cyan), var(--accent-cyan-deep));
+
+  /* Hero highlight gradient — vertical: deep cyan → near-white → amber */
+  --gradient-hero-highlight: linear-gradient(
+    180deg,
+    #0077a3 0%,
+    #00a8cc 18%,
+    #b8e6f0 38%,
+    #f0e6cc 55%,
+    #dbb06b 75%,
+    #c4933a 100%
+  );
+
+  /* Glass sheen overlay for the front face of highlighted text */
+  --gradient-hero-glass: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.10) 0%,
+    rgba(255, 255, 255, 0.02) 40%,
+    transparent 100%
+  );
+
+  /* Radial overlay behind text block to mask background complexity */
+  --gradient-hero-overlay: radial-gradient(
+    ellipse 80% 65% at 50% 45%,
+    rgba(0, 120, 160, 0.15) 0%,
+    rgba(6, 10, 16, 0) 75%
+  );
+
+  /* Darker teal accent for secondary UI elements */
+  --accent-teal: #007799;
   --shadow-glow-cyan: 0 0 24px -6px rgba(0, 217, 255, 0.45);
   --shadow-glow-amber: 0 0 20px -4px rgba(255, 138, 0, 0.5);
   --shadow-elevation: 0 4px 24px -8px rgba(0, 0, 0, 0.55);

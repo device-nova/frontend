@@ -102,9 +102,14 @@ export default function DevNoButton({ href, onClick, className = '' }) {
       {/* Text label */}
       <span
         className="relative z-10"
-        style={{
-          color: hovered ? 'var(--bg-void)' : 'var(--accent-cyan)',
-          textShadow: hovered ? 'none' : '0 0 8px rgba(0,217,255,0.4)',
+        style={hovered ? {
+          color: 'var(--bg-void)',
+        } : {
+          background: 'linear-gradient(180deg, #0077a3 0%, #00a8cc 18%, #b8e6f0 38%, #f0e6cc 55%, #dbb06b 75%, #c4933a 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+          textShadow: '0 0 8px rgba(0,217,255,0.4), 0 0 20px rgba(0,217,255,0.15)',
         }}
       >
         Nova Core

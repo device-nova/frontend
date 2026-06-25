@@ -19,9 +19,7 @@ const heroItemVariants = {
 
 /**
  * Maps scroll progress (0-1 across the full 250vh stage) to the text
- * layer's opacity/translate. Text is fully visible for the first ~5%
- * of scroll, fades out by ~40%, fully hidden after — so the background
- * visual is the sole focus through the middle and end of the stage.
+ * layer's opacity/translate.
  */
 function getTextStyle(progress) {
   const fadeStart = 0.05;
@@ -42,6 +40,20 @@ export default function Hero() {
   const textStyle = getTextStyle(scrollProgress);
   const showNvidiaBadge = scrollProgress > 0.85;
 
+  // Premium Animation Sync: Modulates a subtle cyber glow that ensures edge crispness over the background
+  const syncPhase = (scrollProgress ?? 0) * Math.PI * 8;
+  const glowMod = 0.5 + 0.5 * Math.sin(syncPhase);
+  
+  // A dark crisp outline combined with a dual cyan-orange ambient aura for extreme text legibility
+  const ultraLegibleGlow = `
+    0 2px 4px rgba(0, 0, 0, 0.9), 
+    0 0 12px rgba(34, 211, 238, ${0.25 + 0.1 * glowMod}), 
+    0 0 25px rgba(249, 115, 22, ${0.15 + 0.05 * glowMod})
+  `;
+
+  // UX Fix: Dominant Ice-Blue fading down to a warm, high-contrast, premium Amber-Orange edge
+  const premiumBlendedGradient = 'linear-gradient(135deg, #e0f7fa 0%, #22d3ee 55%, #f97316 100%)';
+
   const heroTextBlock = (
     <motion.div
       variants={heroContainerVariants}
@@ -57,70 +69,114 @@ export default function Hero() {
             }
       }
     >
-      {/* Animated glow orbs behind text */}
+      {/* High-End UX Scrim: Smooth radial mask isolates text from canvas grid clutter */}
       <div
-        className="absolute -top-20 -left-10 w-[40rem] h-40 pointer-events-none opacity-60"
+        className="absolute inset-y-0 -left-10 w-[120%] pointer-events-none"
         aria-hidden="true"
         style={{
-          background: 'radial-gradient(ellipse 80% 100% at 20% 50%, rgba(255,138,0,0.10) 0%, transparent 70%)',
+          background: 'radial-gradient(circle at 20% 50%, rgba(6, 10, 16, 0.75) 0%, rgba(6, 10, 16, 0.3) 70%, transparent 100%)',
         }}
       />
+
+      {/* Decorative Branding Orbs */}
       <div
-        className="absolute -bottom-16 right-0 w-72 h-36 pointer-events-none opacity-40"
+        className="absolute -top-20 -left-10 w-[40rem] h-40 pointer-events-none opacity-40"
         aria-hidden="true"
         style={{
-          background: 'radial-gradient(ellipse 60% 100% at 50% 50%, rgba(204,110,0,0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse 80% 100% at 20% 50%, rgba(6, 182, 212, 0.08) 0%, rgba(249, 115, 22, 0.03) 60%, transparent 70%)',
         }}
       />
 
       <motion.h1
         variants={heroItemVariants}
-        className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[0.95] tracking-tight max-w-5xl"
+        className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.12] tracking-tight max-w-5xl text-white/95 relative z-10"
       >
-        <span className="text-primary">The </span>
-        <span className="bg-gradient-to-r from-amber to-amber-deep bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(255,138,0,0.3)]">Edge Intelligence</span>
-        <span className="text-primary"> Platform for </span>
-        <span className="bg-gradient-to-r from-amber via-amber-deep to-amber bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(255,138,0,0.3)]">Industrial IoT</span>
+        <span>The </span>
+        <span
+          className="bg-clip-text text-transparent font-bold tracking-tight inline-block"
+          style={{ 
+            backgroundImage: premiumBlendedGradient, 
+            textShadow: ultraLegibleGlow, 
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
+          Edge Intelligence
+        </span>
+        <span> Platform for </span>
+        <span
+          className="bg-clip-text text-transparent font-bold tracking-tight inline-block"
+          style={{ 
+            backgroundImage: premiumBlendedGradient, 
+            textShadow: ultraLegibleGlow, 
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
+          Industrial IoT
+        </span>
       </motion.h1>
 
       <motion.p
         variants={heroItemVariants}
-        className="mt-8 text-lg md:text-xl text-muted leading-relaxed max-w-2xl"
+        className="mt-6 text-lg md:text-xl text-neutral-300/90 leading-relaxed max-w-3xl relative z-10"
+        style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}
       >
-        <span className="text-primary/90">Real-time device monitoring, local edge processing, and autonomous industrial
-        decision-making running directly on your sensors, PLCs, and gateways, with
+        <span>Real-time device monitoring, local edge processing, and autonomous industrial 
+        decision-making running directly on your sensors, PLCs, and gateways, with 
         near-zero latency and </span>
-        <span className="text-amber font-medium">no dependency on a cloud round trip</span>
-        <span className="text-primary/90">.</span>
+        <span
+          className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-orange-400 font-semibold inline-block"
+          style={{ 
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
+          no dependency on a cloud round trip
+        </span>
+        <span>.</span>
       </motion.p>
 
-      <motion.div variants={heroItemVariants} className="flex flex-wrap items-center gap-4 mt-10">
-        <Button variant="primary" size="lg" as="a" href="/about">
+      <motion.div variants={heroItemVariants} className="flex flex-wrap items-center gap-4 mt-10 relative z-10">
+        <Button
+          variant="primary"
+          size="lg"
+          as="a"
+          href="/about"
+          className="border border-cyan-400/20 shadow-[0_0_30px_-5px_rgba(6,182,212,0.35)] transition-all duration-300 hover:shadow-[0_0_35px_-2px_rgba(6,182,212,0.5)]"
+          style={{
+            background: 'linear-gradient(135deg, #06b6d4, #0891b2)',
+          }}
+        >
           Learn More
           <ArrowRight size={18} aria-hidden="true" />
         </Button>
-        <Button variant="secondary" size="lg" as="a" href="/contact">
+        <Button
+          variant="secondary"
+          size="lg"
+          as="a"
+          href="/contact"
+          className="hover:border-cyan-400 hover:text-cyan-400 border-white/10 backdrop-blur-md transition-colors duration-300"
+        >
           Get in Touch
           <ChevronRight size={18} aria-hidden="true" />
         </Button>
       </motion.div>
 
-      {/* Decorative bottom accent */}
+      {/* Modern, clean bottom layout divider element */}
       <motion.div
         variants={heroItemVariants}
-        className="flex items-center gap-2 mt-16"
+        className="flex items-center gap-2 mt-16 relative z-10"
         aria-hidden="true"
       >
-        <span className="h-px w-8 bg-gradient-to-r from-transparent to-amber/50" />
-        <span className="h-1.5 w-1.5 rounded-full bg-amber/60" />
-        <span className="h-px w-8 bg-gradient-to-r from-amber/50 to-transparent" />
+        <span className="h-px w-8 bg-gradient-to-r from-transparent to-cyan-500/30" />
+        <span className="h-1.5 w-1.5 rounded-full bg-cyan-500/50 shadow-[0_0_8px_rgba(6,182,212,0.6)]" />
+        <span className="h-px w-8 bg-gradient-to-r from-cyan-500/30 to-transparent" />
       </motion.div>
     </motion.div>
   );
 
   if (reducedMotion) {
-    // Static fallback: no pinning, no scrub. Final frame rendered as a
-    // plain background image, text fades in normally on mount.
     return (
       <section className="relative h-screen w-full overflow-hidden flex items-center">
         <div
@@ -134,7 +190,7 @@ export default function Hero() {
         />
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(to bottom, rgba(6,10,16,0.55), var(--bg-void))' }}
+          style={{ background: 'linear-gradient(to bottom, rgba(6,10,16,0.65), var(--bg-void))' }}
           aria-hidden="true"
         />
         <div
@@ -150,58 +206,42 @@ export default function Hero() {
   return (
     <div ref={stageRef} className="hero-scroll-stage relative" style={{ height: `${100 + FRAME_COUNT * 3}vh` }}>
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Frame sequence canvas */}
-        <canvas
-          ref={canvasRef}
-          className="absolute inset-0 h-full w-full"
-          aria-hidden="true"
-        />
+        <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden="true" />
 
-        {/* Loading skeleton shown until all frames are preloaded */}
         {!imagesLoaded && (
           <div className="absolute inset-0 flex items-center justify-center bg-void">
             <div className="flex items-center gap-3 font-mono text-xs text-muted tracking-widest2">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan animate-pulse-glow" />
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 animate-pulse" />
               Loading visual sequence...
             </div>
           </div>
         )}
 
-        {/* Top gradient scrim — ensures consistent dark backdrop behind the fixed
-            navbar regardless of what's visible in the canvas behind it, independent
-            of the nav's own blur activation state. */}
         <div
           className="absolute inset-x-0 top-0 h-36 z-40 pointer-events-none"
           style={{ background: 'linear-gradient(to bottom, var(--bg-void), transparent)' }}
           aria-hidden="true"
         />
 
-        {/* Bottom gradient overlay for seamless transition into next section */}
         <div
           className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
           style={{ background: 'linear-gradient(to bottom, transparent, var(--bg-void))' }}
           aria-hidden="true"
         />
 
-        {/* Text content layer */}
         {heroTextBlock}
 
-        {/* NVIDIA SDK badge, fades in during final portion of scroll */}
         <div
           className="absolute bottom-8 right-8 z-20 transition-opacity duration-500"
           style={{ opacity: showNvidiaBadge ? 1 : 0 }}
         >
-          <span className="mono-label text-[0.65rem] text-cyan border border-cyan/30 bg-void/60 backdrop-blur-md rounded-md px-3 py-1.5">
+          <span className="mono-label text-[0.65rem] text-cyan-400 border border-cyan-500/30 bg-void/60 backdrop-blur-md rounded-md px-3 py-1.5">
             Powered by NVIDIA SDK
           </span>
         </div>
 
-        {/* Vertical scroll-progress indicator */}
         <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 h-32 w-[2px] bg-border hidden sm:block">
-          <div
-            className="w-full bg-cyan"
-            style={{ height: `${scrollProgress * 100}%` }}
-          />
+          <div className="w-full bg-cyan-500" style={{ height: `${scrollProgress * 100}%` }} />
         </div>
       </div>
     </div>

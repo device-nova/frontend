@@ -22,6 +22,7 @@ export default {
           DEFAULT: 'var(--accent-amber)',
           deep: 'var(--accent-amber-deep)',
         },
+        teal: '#007799',
         success: 'var(--success)',
       },
       fontFamily: {
@@ -31,6 +32,9 @@ export default {
       },
       backgroundImage: {
         'gradient-primary': 'var(--gradient-primary)',
+        'gradient-hero-highlight': 'var(--gradient-hero-highlight)',
+        'gradient-hero-glass': 'var(--gradient-hero-glass)',
+        'gradient-hero-overlay': 'var(--gradient-hero-overlay)',
       },
       boxShadow: {
         'glow-cyan': 'var(--shadow-glow-cyan)',
